@@ -14,6 +14,7 @@ class Parser:
         sys.exit(1)
 
     def term(self):
+        '''term : id | num | string | paren_expr'''
         if self.lexer.sym == Lexer.ID:
             n = SyntaxNode(Parser.VAR, self.lexer.value)
             self.lexer.next_tok()
@@ -30,6 +31,7 @@ class Parser:
             return self.paren_expr()
 
     def summa(self):
+        '''summa : term | term +- term'''
         n = self.term()
         while self.lexer.sym == Lexer.PLUS or self.lexer.sym == Lexer.MINUS:
             if self.lexer.sym == Lexer.PLUS:
@@ -41,6 +43,7 @@ class Parser:
         return n
 
     def test(self):
+        '''test : summa | summa < summa'''
         n = self.summa()
         if self.lexer.sym == Lexer.LESS:
             self.lexer.next_tok()
@@ -48,6 +51,7 @@ class Parser:
         return n
 
     def expr(self):
+        '''expr : test | var = expr'''
         if self.lexer.sym != Lexer.ID:
             return self.test()
         n = self.test()
@@ -57,6 +61,7 @@ class Parser:
         return n
 
     def paren_expr(self):
+        '''paren_expr : (expr)'''
         if self.lexer.sym != Lexer.LPAR:
             self.error('"(" expected')
         self.lexer.next_tok()
@@ -67,6 +72,7 @@ class Parser:
         return n
 
     def statement(self):
+        '''statement : print term | if paren_expr statement | if paren_expr statement else statement | while paren_expr statement | semicolon | { statement+ } | expr+'''
         if self.lexer.sym == Lexer.PRINT:
             n = SyntaxNode(Parser.PRINT)
             self.lexer.next_tok()
@@ -96,7 +102,7 @@ class Parser:
             self.lexer.next_tok()
         else:
             n = SyntaxNode(Parser.EXPR, op1 = self.expr())
-            if self.lexer.sym != Lexer.SEMICOLON:
+            if self.lexer.sym != Lexer.SEMICOL1ON:
                 self.error('";" expected')
             self.lexer.next_tok()
         return n
