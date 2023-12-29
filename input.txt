@@ -1,18 +1,19 @@
 {
-first = 1;
-second = 1;
-print first;
+_first1 = 1;
+_second2 = 1;
+print _first1;
 print '\n';
-print second;
+print _second2;
 print '\n';
-while (second < 1000) 
+while (_second2 < 1000) 
 {	
-	third = first + second;
+	third = _first1 + _second2;
 	print third;
 	print '\n';
-	first = second;
-	second = third;
+	_first1 = _second2;
+	_second2 = third;
 }
 print '\t';
 print third;
+print '\a';
 }

@@ -53,6 +53,9 @@ class Lexer:
                 self.str = ''
                 self.getc()
                 while True:
+                    if len(self.ch) == 0:
+                        self.error("Unexpected EOF")
+                    
                     if self.ch == "\'":
                         break
                     
@@ -72,10 +75,10 @@ class Lexer:
                     self.getc()
                 self.value = intval
                 self.sym = Lexer.NUM
-            elif self.ch.isalpha():
+            elif self.ch.isalpha() or self.ch == '_':
                 ident = ''
-                while self.ch.isalpha():
-                    ident = ident + self.ch.lower()
+                while self.ch.isalnum() or self.ch == '_':
+                    ident += self.ch.lower()
                     self.getc()
                 if ident in Lexer.WORDS:
                     self.sym = Lexer.WORDS[ident]
