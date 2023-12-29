@@ -11,12 +11,10 @@ class Lexer:
     # ключевые слова
     WORDS = {'print': PRINT, 'if': IF, 'else': ELSE, 'while': WHILE}
 
-
     def __init__(self, file):
         self.file = file
+        self.ch = ' '
 
-    # текущий символ, считанный из исходника
-    ch = ' '  # допустим, первый символ - это пробел
 
     def error(self, msg):
         print('Lexer error: ', msg)
@@ -38,6 +36,37 @@ class Lexer:
         
         self.ch = special_symbol_table.get(self.ch, self.ch)
 
+    def parse_string(self):
+        parsed_str = ''
+        self.getc()
+        while self.ch != '\'':
+            if len(self.ch) == 0:
+                self.error("Unexpected EOF")
+                    
+            if self.ch == '\\':
+                self.getc()
+                self.parse_special_symbol()
+                    
+            parsed_str += self.ch
+            self.getc()
+            
+        return parsed_str
+    
+    def parse_number(self):
+        intval = 0
+        while self.ch.isdigit():
+            intval = intval * 10 + int(self.ch)
+            self.getc()
+        return intval
+    
+    def parse_identifier(self):
+        ident = ''
+        while self.ch.isalnum() or self.ch == '_':
+            ident += self.ch.lower()
+            self.getc()
+            
+        return ident
+
     def next_tok(self):
         self.value = None
         self.sym = None
@@ -50,36 +79,14 @@ class Lexer:
                 self.sym = Lexer.SYMBOLS[self.ch]
                 self.getc()
             elif self.ch == '\'':
-                self.str = ''
-                self.getc()
-                while True:
-                    if len(self.ch) == 0:
-                        self.error("Unexpected EOF")
-                    
-                    if self.ch == "\'":
-                        break
-                    
-                    if self.ch == '\\':
-                        self.getc()
-                        self.parse_special_symbol()
-                    
-                    self.str += self.ch
-                    self.getc()
                 self.sym = Lexer.STRING
-                self.value = self.str
+                self.value = self.parse_string()
                 self.getc()
             elif self.ch.isdigit():
-                intval = 0
-                while self.ch.isdigit():
-                    intval = intval * 10 + int(self.ch)
-                    self.getc()
-                self.value = intval
+                self.value = self.parse_number()
                 self.sym = Lexer.NUM
             elif self.ch.isalpha() or self.ch == '_':
-                ident = ''
-                while self.ch.isalnum() or self.ch == '_':
-                    ident += self.ch.lower()
-                    self.getc()
+                ident = self.parse_identifier()
                 if ident in Lexer.WORDS:
                     self.sym = Lexer.WORDS[ident]
                 else:
