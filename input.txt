@@ -1,13 +1,18 @@
 {
-a = 1;
-b = 100;
-s = 0;
-while (a < 100) 
+first = 1;
+second = 1;
+print first;
+print '\n';
+print second;
+print '\n';
+while (second < 1000) 
 {	
-	s = s + a;
-	a = a + 1;
-	print s;
-	print a;
-	print #;
+	third = first + second;
+	print third;
+	print '\n';
+	first = second;
+	second = third;
 }
+print '\t';
+print third;
 }
