@@ -10,7 +10,7 @@ class Parser:
         self.lexer = lexer
 
     def error(self, msg):
-        print('Parser error:', msg)
+        print(f'Parser error at {(self.lexer.str_num, self.lexer.ch_num)}: {msg}')
         sys.exit(1)
 
     def term(self):
@@ -102,7 +102,7 @@ class Parser:
             self.lexer.next_tok()
         else:
             n = SyntaxNode(Parser.EXPR, op1 = self.expr())
-            if self.lexer.sym != Lexer.SEMICOL1ON:
+            if self.lexer.sym != Lexer.SEMICOLON:
                 self.error('";" expected')
             self.lexer.next_tok()
         return n

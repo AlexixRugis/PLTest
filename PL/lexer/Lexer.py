@@ -14,14 +14,21 @@ class Lexer:
     def __init__(self, file):
         self.file = file
         self.ch = ' '
+        self.str_num = 1
+        self.ch_num = 1
 
 
     def error(self, msg):
-        print('Lexer error: ', msg)
+        print(f'Lexer error at {(self.str_num, self.ch_num)}: {msg}')
         sys.exit(1)
 
     def getc(self):
         self.ch = self.file.read(1)
+        
+        self.ch_num += 1
+        if self.ch == '\n':
+            self.str_num += 1
+            self.ch_num = 1
         
     def parse_special_symbol(self):
         special_symbol_table = {

@@ -16,4 +16,5 @@ while (_second2 < 1000)
 print '\t';
 print third;
 print '\a';
+print 3 + 3;
 }
