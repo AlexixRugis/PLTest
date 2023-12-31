@@ -13,44 +13,29 @@ class Compiler:
 
     def compile(self, node):
         if node.kind == Parser.VAR:
-            self.asmb.Load(self.variables[node.value])
+            self.asmb.load(self.variables[node.value])
         elif node.kind == Parser.CONST:
             self.asmb.push(node.value)
         elif node.kind == Parser.ADD:
             self.compile(node.op1)
-            self.asmb.mov("acc","A")
             self.compile(node.op2)
-            self.asmb.mov("acc", "B")
-            self.asmb.sum("A","B")
-            self.asmb.mov("A","acc")
+            self.asmb.sum()
         elif node.kind == Parser.SUB:
             self.compile(node.op1)
-            self.asmb.mov("acc", "A")
             self.compile(node.op2)
-            self.asmb.mov("acc", "B")
-            self.asmb.sub("A", "B")
-            self.asmb.mov("A", "acc")
+            self.asmb.sub()
         elif node.kind == Parser.MULT:
             self.compile(node.op1)
-            self.asmb.mov("acc", "A")
             self.compile(node.op2)
-            self.asmb.mov("acc", "B")
-            self.asmb.mult("A", "B")
-            self.asmb.mov("A", "acc")
+            self.asmb.mult()
         elif node.kind == Parser.DIV:
             self.compile(node.op1)
-            self.asmb.mov("acc", "A")
             self.compile(node.op2)
-            self.asmb.mov("acc", "B")
-            self.asmb.div("A", "B")
-            self.asmb.mov("A", "acc")
+            self.asmb.div()
         elif node.kind == Parser.LT:
             self.compile(node.op1)
-            self.asmb.mov("acc", "A")
             self.compile(node.op2)
-            self.asmb.mov("acc", "B")
-            self.asmb.ilt("A","B")
-            self.asmb.mov("A", "acc")
+            self.ilt()
 
         elif node.kind == Parser.SET:
             self.compile(node.op2)
@@ -62,10 +47,11 @@ class Compiler:
         elif node.kind == Parser.PRINT:
             if node.op1.kind == Parser.STRING:
                 for ch in node.op1.value:
-                    self.asmb.print('char', ord(ch))
+                    self.asmb.push(ord(ch))
+                    self.asmb.printch()
             elif node.op1.kind == Parser.VAR:
                 self.compile(node.op1)
-                self.asmb.print('reg', 1)
+                self.asmb.printnum()
 
         elif node.kind == Parser.IF1:
             self.compile(node.op1)

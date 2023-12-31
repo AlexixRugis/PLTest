@@ -5,116 +5,84 @@ class WM(object):
         self.file = file
         self.program = self.file.read()
         self.program = self.program.split(' ')
-        self.acc = 0
-        self.adr = 0
-        self.A = 0
-        self.B = 0
-        self.C = 0
-        self.D = 0
         self.Ram = [0]*1024
+        self.stack = [0]*1024
+        self.sp = -1
         self.pc = 0
 
-    def ChooosReg(self, reg):
-        if str(reg) == '1':
-            return self.acc
-        elif str(reg) == '8':
-            return self.pc
-        elif str(reg) == '2':
-            return self.adr
-        elif str(reg) == '3':
-            return self.A
-        elif str(reg) == '4':
-            return self.B
-        elif str(reg) == '5':
-            return self.C
-        elif str(reg) == '6':
-            return self.D
-        elif str(reg) == '7':
-            return self.Ram[self.adr]
-        else:
-            print('choose reg a error!')
-            self.file.close()
-            sys.exit(0)
-
-    def mov(self, a, b):
-        if str(b) == '1':
-            self.acc = a
-        elif str(b) == '8':
-            self.pc = a
-        elif str(b) == '2':
-            self.adr = a
-        elif str(b) == '3':
-            self.A = a
-        elif str(b) == '4':
-            self.B = a
-        elif str(b) == '5':
-            self.C = a
-        elif str(b) == '6':
-            self.D = a
-        elif str(b) == '7':
-            self.Ram[self.adr] = a
-        else:
-            print('choose reg a error!')
-            self.file.close()
-            sys.exit(0)
+    def push(self, val):
+        if self.sp == 1023:
+            raise Exception('stack overflow')
+        self.sp += 1
+        self.stack[self.sp] = val
+    
+    def pop(self):
+        if self.sp == -1:
+            raise Exception('stack empty')
+        val = self.stack[self.sp]
+        self.sp -= 1
+        return val
 
     def Run(self):
-
         while True:
             if self.program[self.pc] == 'EOP':
                 break
 
-            elif self.program[self.pc] == 'mov':
-                self.mov(self.ChooosReg(self.program[self.pc + 1]), self.program[self.pc + 2])
-                self.pc += 3
-
-            elif self.program[self.pc] == 'loadacc':
-                self.acc = int(self.program[self.pc + 1])
+            elif self.program[self.pc] == 'push':
+                self.push(int(self.program[self.pc + 1]))
+                self.pc += 2
+                
+            elif self.program[self.pc] == 'pop':
+                self.pop()
+                self.pc += 1
+            
+            elif self.program[self.pc] == 'load':
+                self.push(self.Ram[int(self.program[self.pc + 1])])
+                self.pc += 2
+                
+            elif self.program[self.pc] == 'store':
+                self.Ram[int(self.program[self.pc + 1])] = self.pop()
                 self.pc += 2
 
             elif self.program[self.pc] == 'sum':
-                sum = self.ChooosReg(self.program[self.pc + 1]) + self.ChooosReg(self.program[self.pc + 2])
-                self.mov(sum, self.program[self.pc + 1])
-                self.pc += 3
+                self.push(self.pop() + self.pop()) 
+                self.pc += 1
 
             elif self.program[self.pc] == 'sub':
-                sub = self.ChooosReg(self.program[self.pc + 1]) - self.ChooosReg(self.program[self.pc + 2])
-                self.mov(sub, self.program[self.pc + 1])
-                self.pc += 3
+                self.push(self.pop() - self.pop())
+                self.pc += 1
 
             elif self.program[self.pc] == 'mult':
-                mult = self.ChooosReg(self.program[self.pc + 1]) * self.ChooosReg(self.program[self.pc + 2])
-                self.mov(mult, self.program[self.pc + 1])
-                self.pc += 3
-                
+                self.push(self.pop() * self.pop())
+                self.pc += 1
+                                
             elif self.program[self.pc] == 'div':
-                div = self.ChooosReg(self.program[self.pc + 1]) // self.ChooosReg(self.program[self.pc + 2])
-                self.mov(div, self.program[self.pc + 1])
-                self.pc += 3
+                self.push(self.pop() // self.pop())
+                self.pc += 1
 
             elif self.program[self.pc] == 'ilt':
-                if self.ChooosReg(self.program[self.pc + 1]) < self.ChooosReg(self.program[self.pc + 2]):
-                    self.A = 1
+                if self.pop() < self.pop():
+                    self.push(1)
                 else:
-                    self.A = 0
-                self.pc += 3
+                    self.push(0)
+                self.pc += 1
 
             elif self.program[self.pc] == 'jme':
-                if self.ChooosReg(self.program[self.pc + 1]) == self.ChooosReg(self.program[self.pc + 2]):
+                if self.pop() == self.pop():
                     self.pc = self.adr
-
                 else:
-                    self.pc += 3
+                    self.pc += 1
 
             elif self.program[self.pc] == 'jma':
                 self.pc = self.adr
 
-            elif self.program[self.pc] == 'print':
-                if self.program[self.pc + 1] == 'char':
-                    print(chr(int(self.program[self.pc + 2])), end='')
-                elif self.program[self.pc + 1] == 'reg':
-                    print(self.ChooosReg(self.program[self.pc + 2]), end='')
-                self.pc += 3
+            elif self.program[self.pc] == 'printch':
+                print(chr(self.pop()), end='')
+                self.pc += 1
+            
+            elif self.program[self.pc] == 'printnum':
+                print(self.pop(), end='')
+                self.pc += 1
 
             else:
                 print('Unknown command!')
