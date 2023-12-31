@@ -4,6 +4,23 @@ from .SyntaxNode import SyntaxNode
 
 class Parser:
 
+    '''syntax
+    statement -> 'print' term |
+        'if' paren_expr statement ('else' statement) |
+        'while' paren_expr statement |
+        '{' statement+ '}' |
+        expr ';'
+    paren_expr -> '(' expr ')'
+    expr -> var '=' expr |
+        test
+    test -> summa ('<' summa)
+    summa -> term ('+'|'-' term)+
+    term -> id |
+        num |
+        string |
+        paren_expr
+    '''
+
     VAR, CONST, STRING, ADD, SUB, LT, SET, PRINT, IF1, IF2, WHILE, EMPTY, SEQ, EXPR, PROG = range(15)
 
     def __init__(self, lexer):
