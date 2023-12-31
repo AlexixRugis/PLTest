@@ -82,6 +82,16 @@ class WM(object):
                 self.mov(sub, self.program[self.pc + 1])
                 self.pc += 3
 
+            elif self.program[self.pc] == 'mult':
+                mult = self.ChooosReg(self.program[self.pc + 1]) * self.ChooosReg(self.program[self.pc + 2])
+                self.mov(mult, self.program[self.pc + 1])
+                self.pc += 3
+                
+            elif self.program[self.pc] == 'div':
+                div = self.ChooosReg(self.program[self.pc + 1]) // self.ChooosReg(self.program[self.pc + 2])
+                self.mov(div, self.program[self.pc + 1])
+                self.pc += 3
+
             elif self.program[self.pc] == 'ilt':
                 if self.ChooosReg(self.program[self.pc + 1]) < self.ChooosReg(self.program[self.pc + 2]):
                     self.A = 1
@@ -110,6 +120,7 @@ class WM(object):
                 print('Unknown command!')
                 print(self.program[self.pc])
                 print(self.pc)
+                sys.exit(-1)
 
 with open("program.txt",'r') as file:
     wm = WM(file)

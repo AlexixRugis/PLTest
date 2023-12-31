@@ -30,6 +30,20 @@ class Compiler:
             self.asmb.mov("acc", "B")
             self.asmb.sub("A", "B")
             self.asmb.mov("A", "acc")
+        elif node.kind == Parser.MULT:
+            self.compile(node.op1)
+            self.asmb.mov("acc", "A")
+            self.compile(node.op2)
+            self.asmb.mov("acc", "B")
+            self.asmb.mult("A", "B")
+            self.asmb.mov("A", "acc")
+        elif node.kind == Parser.DIV:
+            self.compile(node.op1)
+            self.asmb.mov("acc", "A")
+            self.compile(node.op2)
+            self.asmb.mov("acc", "B")
+            self.asmb.div("A", "B")
+            self.asmb.mov("A", "acc")
         elif node.kind == Parser.LT:
             self.compile(node.op1)
             self.asmb.mov("acc", "A")

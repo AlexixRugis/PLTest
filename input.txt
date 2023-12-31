@@ -1,20 +1,14 @@
 {
-_first1 = 1;
-_second2 = 1;
-print _first1;
-print '\n';
-print _second2;
-print '\n';
-while (_second2 < 1000) 
-{	
-	third = _first1 + _second2;
-	print third;
+fact = 1;
+n = 1;
+while (n < 10) {
+	fact = fact * n;
+	print fact;
 	print '\n';
-	_first1 = _second2;
-	_second2 = third;
+	n = n + 1;
 }
-print '\t';
-print third;
-print '\a';
-print 3 + 3;
+
+test = 2+3*2;
+print test;
+print '\n';
 }

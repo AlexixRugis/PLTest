@@ -14,14 +14,15 @@ class Parser:
     expr -> var '=' expr |
         test
     test -> summa ('<' summa)
-    summa -> term ('+'|'-' term)+
+    summa -> factor ('+'|'-' factor)+
+    factor -> term ('*'|'/' term)+
     term -> id |
         num |
         string |
         paren_expr
     '''
 
-    VAR, CONST, STRING, ADD, SUB, LT, SET, PRINT, IF1, IF2, WHILE, EMPTY, SEQ, EXPR, PROG = range(15)
+    VAR, CONST, STRING, ADD, SUB, MULT, DIV, LT, SET, PRINT, IF1, IF2, WHILE, EMPTY, SEQ, EXPR, PROG = range(17)
 
     def __init__(self, lexer):
         self.lexer = lexer
@@ -46,17 +47,28 @@ class Parser:
             return n
         else:
             return self.paren_expr()
+        
+    def factor(self):
+        n = self.term()
+        while self.lexer.sym == Lexer.MULT or self.lexer.sym == Lexer.DIV:
+            if self.lexer.sym == Lexer.MULT:
+                kind = Parser.MULT
+            else:
+                kind = Parser.DIV
+            self.lexer.next_tok()
+            n = SyntaxNode(kind, op1=n, op2=self.term())
+        return n
 
     def summa(self):
         '''summa : term | term +- term'''
-        n = self.term()
+        n = self.factor()
         while self.lexer.sym == Lexer.PLUS or self.lexer.sym == Lexer.MINUS:
             if self.lexer.sym == Lexer.PLUS:
                 kind = Parser.ADD
             else:
                 kind = Parser.SUB
             self.lexer.next_tok()
-            n = SyntaxNode(kind, op1 = n, op2 = self.term())
+            n = SyntaxNode(kind, op1 = n, op2 = self.factor())
         return n
 
     def test(self):

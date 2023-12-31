@@ -14,6 +14,7 @@ pc = 0
 program = []
 asmb = Assembler(program)
 compl = Compiler(asmb)
+parsed.pretty_print()
 compl.compile(parsed)
 print(program)
 print(len(program))

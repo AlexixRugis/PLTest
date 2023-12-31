@@ -1,12 +1,12 @@
 import sys
 
 class Lexer:
-    NUM, ID, STRING, PRINT, IF, ELSE, WHILE, LBRA, RBRA, LPAR, RPAR, PLUS, MINUS, LESS, \
-    EQUAL, SEMICOLON, EOF = range(17)
+    NUM, ID, STRING, PRINT, IF, ELSE, WHILE, LBRA, RBRA, LPAR, RPAR, PLUS, MINUS, MULT, DIV, LESS, \
+    EQUAL, SEMICOLON, EOF = range(19)
 
     # специальные символы языка
     SYMBOLS = {'{': LBRA, '}': RBRA, '=': EQUAL, ';': SEMICOLON, '(': LPAR,
-               ')': RPAR, '+': PLUS, '-': MINUS, '<': LESS}
+               ')': RPAR, '+': PLUS, '-': MINUS, '*': MULT, '/': DIV, '<': LESS}
 
     # ключевые слова
     WORDS = {'print': PRINT, 'if': IF, 'else': ELSE, 'while': WHILE}
