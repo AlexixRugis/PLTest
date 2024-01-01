@@ -15,17 +15,19 @@ class Parser:
         test
     test -> summa ('<' summa)
     summa -> term ('*'|'/'|'+'|'-' summa)+
-    term -> id |
+    term -> '-' term |
+        '+' term |
+        id |
         num |
         string |
         paren_expr
     '''
 
-    VAR, CONST, STRING, ADD, SUB, MULT, DIV, LT, SET, PRINT, IF1, IF2, WHILE, EMPTY, SEQ, EXPR, PROG = range(17)
+    VAR, CONST, STRING, ADD, SUB, MULT, DIV, LT, SET, PRINT, IF1, IF2, WHILE, EMPTY, SEQ, EXPR, UMINUS, PROG = range(18)
 
     def __init__(self, lexer):
         self.lexer = lexer
-        
+    
     def get_binary_operator_precedence(self, operator):
         if operator == Lexer.MULT or operator == Lexer.DIV:
             return 2
@@ -40,6 +42,13 @@ class Parser:
 
     def term(self):
         '''term : id | num | string | paren_expr'''
+        if self.lexer.sym == Lexer.MINUS:
+            self.lexer.next_tok()
+            n = SyntaxNode(Parser.UMINUS, op1=self.term())
+            return n
+        elif self.lexer.sym == Lexer.PLUS:
+            self.lexer.next_tok()
+            return self.term()
         if self.lexer.sym == Lexer.ID:
             n = SyntaxNode(Parser.VAR, self.lexer.value)
             self.lexer.next_tok()
@@ -54,17 +63,6 @@ class Parser:
             return n
         else:
             return self.paren_expr()
-        
-    def factor(self):
-        n = self.term()
-        while self.lexer.sym == Lexer.MULT or self.lexer.sym == Lexer.DIV:
-            if self.lexer.sym == Lexer.MULT:
-                kind = Parser.MULT
-            else:
-                kind = Parser.DIV
-            self.lexer.next_tok()
-            n = SyntaxNode(kind, op1=n, op2=self.term())
-        return n
 
     def summa(self, parent_precedence = 0):
         '''summa : term | term +- sum'''

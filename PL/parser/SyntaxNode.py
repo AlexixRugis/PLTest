@@ -9,7 +9,7 @@ class SyntaxNode:
     def get_str_kind(self, kind):
         a = ['VAR', 'CONST', 'STRING', 'ADD', 'SUB', 
             'MULT', 'DIV', 'LT', 'SET', 'PRINT', 'IF1', 
-            'IF2', 'WHILE', 'EMPTY', 'SEQ', 'EXPR', 'PROG']
+            'IF2', 'WHILE', 'EMPTY', 'SEQ', 'EXPR', 'UMINUS', 'PROG']
         return a[kind]
         
     def pretty_print(self, indent=''):
@@ -21,3 +21,6 @@ class SyntaxNode:
             self.op2.pretty_print(indent)
         if self.op3 and isinstance(self.op3, SyntaxNode):
             self.op3.pretty_print(indent)
+            
+    def __str__(self) -> str:
+        return self.get_str_kind(self.kind)

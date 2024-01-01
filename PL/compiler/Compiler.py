@@ -1,3 +1,4 @@
+import sys
 from PL.parser.Parser import Parser
 
 class Compiler:
@@ -16,6 +17,10 @@ class Compiler:
             self.asmb.load(self.variables[node.value])
         elif node.kind == Parser.CONST:
             self.asmb.push(node.value)
+        elif node.kind == Parser.UMINUS:
+            self.compile(node.op1)
+            self.asmb.push(0)
+            self.asmb.sub()
         elif node.kind == Parser.ADD:
             self.compile(node.op2)
             self.compile(node.op1)
@@ -100,3 +105,8 @@ class Compiler:
             self.compile(node.op1)
             self.asmb.eop()
             self.asmb.pc += 1
+        elif node.kind == Parser.EMPTY:
+            pass
+        else:
+            print(f'Unexpected syntax: {node}')
+            sys.exit(-1)
