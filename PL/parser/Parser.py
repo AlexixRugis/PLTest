@@ -73,7 +73,8 @@ class Parser:
         while True:
             precedence = self.get_binary_operator_precedence(self.lexer.sym)
             
-            if precedence == 0 or precedence < parent_precedence:
+            #left-most <= right-most <
+            if precedence == 0 or precedence <= parent_precedence:
                 break
             
             kind = {

@@ -1,1 +1,1 @@
-push 10 push 4 push 2 mult push 3 sub div push 2 mult printnum EOP 
+push 10 push 4 push 2 mult push 3 sub push 2 mult div printnum EOP 
