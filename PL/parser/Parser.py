@@ -86,14 +86,7 @@ class Parser:
             
             self.lexer.next_tok()
             n = SyntaxNode(kind, op1=n, op2=self.summa(precedence))
-        
-        #while self.lexer.sym == Lexer.PLUS or self.lexer.sym == Lexer.MINUS:
-        #    if self.lexer.sym == Lexer.PLUS:
-        #        kind = Parser.ADD
-        #    else:
-        #        kind = Parser.SUB
-        #    self.lexer.next_tok()
-        #    n = SyntaxNode(kind, op1 = n, op2 = self.factor())
+
         return n
 
     def test(self):

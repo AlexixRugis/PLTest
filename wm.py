@@ -1,5 +1,8 @@
 import sys
 import time
+
+DEBUG=False
+
 class WM(object):
     def __init__(self, file):
         self.file = file
@@ -91,7 +94,8 @@ class WM(object):
                 print(self.pc)
                 sys.exit(-1)
                 
-            print(self.stack[:self.sp+1])
+            if DEBUG:
+                print(self.stack[:self.sp+1])
 
 with open("program.txt",'r') as file:
     wm = WM(file)
