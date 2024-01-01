@@ -37,7 +37,7 @@ class Parser:
             return 0
 
     def error(self, msg):
-        print(f'Parser error at {(self.lexer.str_num, self.lexer.ch_num)}: {msg}')
+        print(f'Parser error at {self.lexer.pos}: {msg}')
         sys.exit(1)
 
     def term(self):

@@ -17,7 +17,6 @@ class Lexer:
         self.str_num = 1
         self.ch_num = 1
 
-
     def error(self, msg):
         print(f'Lexer error at {(self.str_num, self.ch_num)}: {msg}')
         sys.exit(1)
@@ -77,6 +76,7 @@ class Lexer:
     def next_tok(self):
         self.value = None
         self.sym = None
+        self.pos = (self.str_num, self.ch_num)
         while self.sym == None:
             if len(self.ch) == 0:
                 self.sym = Lexer.EOF
