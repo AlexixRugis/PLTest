@@ -1,14 +1,14 @@
 {
 fact = 1;
 n = 1;
-while (n < 10) {
+while (n < 20) {
 	fact = fact * n;
 	print fact;
 	print '\n';
 	n = n + 1;
 }
 
-test = 2+3*2;
+test = 30*(12-3)/10*(4-1);
 print test;
 print '\n';
 }

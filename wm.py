@@ -68,13 +68,14 @@ class WM(object):
                 self.pc += 1
 
             elif self.program[self.pc] == 'jme':
+                adr = self.pop()
                 if self.pop() == self.pop():
-                    self.pc = self.adr
+                    self.pc = adr
                 else:
                     self.pc += 1
 
             elif self.program[self.pc] == 'jma':
-                self.pc = self.adr
+                self.pc = self.pop()
 
             elif self.program[self.pc] == 'printch':
                 print(chr(self.pop()), end='')
