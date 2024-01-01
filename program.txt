@@ -1,1 +1,1 @@
-push 1 store 0 push 1 store 1 push 20 load 1 ilt push 0 push 41 jme load 1 load 0 mult store 0 load 0 printnum push 10 printch push 1 load 1 sum store 1 push 8 jma push 1 push 4 sub push 10 push 3 push 12 sub push 30 mult div mult store 2 load 2 printnum push 10 printch EOP 
+push 0 store 0 push 30000 load 0 ilt push 0 push 24 jme push 1 load 0 sum store 0 push 4 jma push 2 load 0 mult printnum EOP 

@@ -49,7 +49,7 @@ class Compiler:
                 for ch in node.op1.value:
                     self.asmb.push(ord(ch))
                     self.asmb.printch()
-            elif node.op1.kind == Parser.VAR:
+            else:
                 self.compile(node.op1)
                 self.asmb.printnum()
 

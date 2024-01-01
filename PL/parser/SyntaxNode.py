@@ -14,7 +14,7 @@ class SyntaxNode:
         
     def pretty_print(self, indent=''):
         print(indent + self.get_str_kind(self.kind))
-        indent += ' '
+        indent += '|'
         if self.op1 and isinstance(self.op1, SyntaxNode):
             self.op1.pretty_print(indent)
         if self.op2 and isinstance(self.op2, SyntaxNode):

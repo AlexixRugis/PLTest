@@ -101,11 +101,11 @@ class Parser:
         return n
 
     def statement(self):
-        '''statement : print term | if paren_expr statement | if paren_expr statement else statement | while paren_expr statement | semicolon | { statement+ } | expr+'''
+        '''statement : print paren_expr | if paren_expr statement | if paren_expr statement else statement | while paren_expr statement | semicolon | { statement+ } | expr+'''
         if self.lexer.sym == Lexer.PRINT:
             n = SyntaxNode(Parser.PRINT)
             self.lexer.next_tok()
-            n.op1 = self.term()
+            n.op1 = self.paren_expr()
         elif self.lexer.sym == Lexer.IF:
             n = SyntaxNode(Parser.IF1)
             self.lexer.next_tok()
