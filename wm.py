@@ -57,7 +57,7 @@ class WM(object):
                 self.pc += 1
                                 
             elif self.program[self.pc] == 'div':
-                self.push(self.pop() // self.pop())
+                self.push(int(self.pop() / self.pop()))
                 self.pc += 1
 
             elif self.program[self.pc] == 'ilt':
@@ -90,6 +90,8 @@ class WM(object):
                 print(self.program[self.pc])
                 print(self.pc)
                 sys.exit(-1)
+                
+            print(self.stack[:self.sp+1])
 
 with open("program.txt",'r') as file:
     wm = WM(file)

@@ -14,8 +14,7 @@ class Parser:
     expr -> var '=' expr |
         test
     test -> summa ('<' summa)
-    summa -> factor ('+'|'-' factor)+
-    factor -> term ('*'|'/' term)+
+    summa -> term ('*'|'/'|'+'|'-' summa)+
     term -> id |
         num |
         string |
@@ -26,6 +25,14 @@ class Parser:
 
     def __init__(self, lexer):
         self.lexer = lexer
+        
+    def get_binary_operator_precedence(self, operator):
+        if operator == Lexer.MULT or operator == Lexer.DIV:
+            return 2
+        elif operator == Lexer.PLUS or operator == Lexer.MINUS:
+            return 1
+        else:
+            return 0
 
     def error(self, msg):
         print(f'Parser error at {(self.lexer.str_num, self.lexer.ch_num)}: {msg}')
@@ -59,16 +66,33 @@ class Parser:
             n = SyntaxNode(kind, op1=n, op2=self.term())
         return n
 
-    def summa(self):
-        '''summa : term | term +- term'''
-        n = self.factor()
-        while self.lexer.sym == Lexer.PLUS or self.lexer.sym == Lexer.MINUS:
-            if self.lexer.sym == Lexer.PLUS:
-                kind = Parser.ADD
-            else:
-                kind = Parser.SUB
+    def summa(self, parent_precedence = 0):
+        '''summa : term | term +- sum'''
+        n = self.term()
+        
+        while True:
+            precedence = self.get_binary_operator_precedence(self.lexer.sym)
+            
+            if precedence == 0 or precedence < parent_precedence:
+                break
+            
+            kind = {
+                Lexer.PLUS : Parser.ADD,
+                Lexer.MINUS : Parser.SUB, 
+                Lexer.MULT : Parser.MULT,
+                Lexer.DIV : Parser.DIV
+            }[self.lexer.sym]
+            
             self.lexer.next_tok()
-            n = SyntaxNode(kind, op1 = n, op2 = self.factor())
+            n = SyntaxNode(kind, op1=n, op2=self.summa(precedence))
+        
+        #while self.lexer.sym == Lexer.PLUS or self.lexer.sym == Lexer.MINUS:
+        #    if self.lexer.sym == Lexer.PLUS:
+        #        kind = Parser.ADD
+        #    else:
+        #        kind = Parser.SUB
+        #    self.lexer.next_tok()
+        #    n = SyntaxNode(kind, op1 = n, op2 = self.factor())
         return n
 
     def test(self):
