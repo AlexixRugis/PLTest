@@ -1,5 +1,13 @@
 {
-print (-2*(3-2*4)/10);
-print ('\n');
-print (1+++++-+1);
+    a = 1;
+    b = 1;
+    while (b < 100) {
+        c = a + b;
+        print(c);
+        print('\n');
+        a = b;
+        b = c;
+    }
+
+    print('End\n');
 }

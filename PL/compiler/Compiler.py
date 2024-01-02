@@ -72,16 +72,16 @@ class Compiler:
             self.asmb.push(0)
             addr1 = self.asmb.pc
             self.asmb.push(0)
-            self.jme()
+            self.asmb.jme()
             
             self.compile(node.op2)
             addr2 = self.asmb.pc
             self.asmb.push(0)
-            self.jma()
+            self.asmb.jma()
             
-            self.asmb[addr1 + 1] = str(self.asmb.pc) + ' '
+            self.asmb.file[addr1 + 1] = str(self.asmb.pc) + ' '
             self.compile(node.op3)
-            self.asmb[addr2 + 1] = str(self.asmb.pc) + ' '
+            self.asmb.file[addr2 + 1] = str(self.asmb.pc) + ' '
 
         elif node.kind == Parser.WHILE:
             addr1 = self.asmb.pc

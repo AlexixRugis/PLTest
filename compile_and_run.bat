@@ -1,1 +1,1 @@
-python ./compile.py && python ./wm.py
+python ./compile.py && python ./vm.py
