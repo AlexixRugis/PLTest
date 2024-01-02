@@ -1,7 +1,9 @@
-# PLTest
+# Programming language experiment
+
 There is a small intermediate code compiler and interpreter for this code. Everything is written in python.
 
 ## How to use
+
 Just edit the file input.txt
 
 **The code must be between curly brackets**
