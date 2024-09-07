@@ -145,6 +145,7 @@
     <ClInclude Include="LexerContext.h" />
     <ClInclude Include="LexerToken.h" />
     <ClInclude Include="NumberParser.h" />
+    <ClInclude Include="LexerTokenSearchTrie.h" />
     <ClInclude Include="StringParser.h" />
     <ClInclude Include="SymbolParser.h" />
   </ItemGroup>
