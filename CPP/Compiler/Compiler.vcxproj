@@ -130,17 +130,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="IdentifierParser.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="LexerContext.cpp" />
     <ClCompile Include="LexerToken.cpp" />
+    <ClCompile Include="NumberParser.cpp" />
     <ClCompile Include="StringParser.cpp" />
+    <ClCompile Include="SymbolParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IdentifierParser.h" />
     <ClInclude Include="ILexemParser.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerContext.h" />
     <ClInclude Include="LexerToken.h" />
+    <ClInclude Include="NumberParser.h" />
     <ClInclude Include="StringParser.h" />
+    <ClInclude Include="SymbolParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

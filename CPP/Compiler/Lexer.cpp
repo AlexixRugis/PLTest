@@ -3,28 +3,22 @@
 #include <unordered_map>
 #include "Lexer.h"
 #include "StringParser.h"
+#include "NumberParser.h"
+#include "IdentifierParser.h"
+#include "SymbolParser.h"
 
 Lexer::Lexer(const std::ifstream& ifs) : m_Context(this), m_Text(ReadFromFile(ifs)), m_TextIndex(0)
 {
     Commit();
 
     AddParser(std::make_shared<StringParser>());
+    AddParser(std::make_shared<NumberParser>());
+    AddParser(std::make_shared<SymbolParser>());
+    AddParser(std::make_shared<IdentifierParser>());
 }
 
 LexerToken Lexer::NextToken()
 {
-    static const std::unordered_map<char, LexerTokenType> symbolsMap({
-        {'{', LexerTokenType::LBRA}, {'}', LexerTokenType::RBRA}, {'=', LexerTokenType::EQUAL}, 
-        {';', LexerTokenType::SEMICOLON}, {'(', LexerTokenType::LPAR}, {')', LexerTokenType::RPAR},
-        {'+', LexerTokenType::PLUS}, {'-', LexerTokenType::MINUS}, {'*', LexerTokenType::MULT},
-        {'/', LexerTokenType::DIV}, {'<', LexerTokenType::LESS}
-        });
-
-    static const std::unordered_map<std::string, LexerTokenType> keywordsMap({
-        {"print", LexerTokenType::PRINT}, {"if", LexerTokenType::IF},
-        {"else", LexerTokenType::ELSE}, {"while", LexerTokenType::WHILE}
-        });
-
     std::string val;
     LexerTokenType type;
     bool found = false;
@@ -60,38 +54,7 @@ LexerToken Lexer::NextToken()
             }
         }
 
-        if (found) continue;
-
-
-        if (isdigit(m_Context.m_CurrentChar))
-        {
-            type = LexerTokenType::NUM;
-            val = ParseNumber();
-            found = true;
-        }
-        else if (auto iter = symbolsMap.find(m_Context.m_CurrentChar); iter != symbolsMap.end())
-        {
-            type = iter->second;
-            found = true;
-
-            NextChar();
-        }
-        else if (isalpha(m_Context.m_CurrentChar) || m_Context.m_CurrentChar == '_')
-        {
-            std::string ident = ParseIdentifier();
-            auto iter = keywordsMap.find(ident);
-            if (iter != keywordsMap.end())
-            {
-                type = iter->second;
-            }
-            else
-            {
-                type = LexerTokenType::ID;
-                val = std::move(ident);
-            }
-            found = true;
-        }
-        else
+        if (!found)
         {
             std::string error = "Unexpected symbol:  ";
             error.back() = m_Context.m_CurrentChar;
@@ -133,31 +96,6 @@ void Lexer::NextChar()
 void Lexer::AddParser(const std::shared_ptr<ILexemParser>&& parser)
 {
     m_LexemParsers.push_back(parser);
-}
-
-std::string Lexer::ParseNumber()
-{
-    std::string val;
-    while (isdigit(m_Context.m_CurrentChar))
-    {
-        val.push_back(m_Context.m_CurrentChar);
-        NextChar();
-    }
-
-    return val;
-}
-
-std::string Lexer::ParseIdentifier()
-{
-    std::string ident;
-
-    while (isalnum(m_Context.m_CurrentChar) || m_Context.m_CurrentChar == '_')
-    {
-        ident.push_back(m_Context.m_CurrentChar);
-        NextChar();
-    }
-
-    return ident;
 }
 
 std::string Lexer::ReadFromFile(const std::ifstream& ifs)

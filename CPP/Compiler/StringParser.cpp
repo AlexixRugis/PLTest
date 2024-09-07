@@ -36,9 +36,7 @@ std::optional<LexerToken> StringParser::TryParse(LexerContext& context)
     return LexerToken(LexerTokenType::STRING, parsedString);
 }
 
-char StringParser::TransformSpecialSymbol(char c) const
-{
-    static const std::unordered_map<char, char> specialSymbolTable({
+static const std::unordered_map<char, char> specialSymbolTable({
     {'a', '\a'},
     {'b', '\b'},
     {'f', '\f'},
@@ -46,8 +44,10 @@ char StringParser::TransformSpecialSymbol(char c) const
     {'r', '\r'},
     {'t', '\t'},
     {'v', '\v'},
-        });
+});
 
+char StringParser::TransformSpecialSymbol(char c) const
+{
     auto iter = specialSymbolTable.find(c);
     if (iter != specialSymbolTable.end())
     {

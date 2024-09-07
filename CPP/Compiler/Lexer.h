@@ -32,9 +32,6 @@ private:
     void Commit();
     void Rollback();
 
-    std::string ParseNumber();
-    std::string ParseIdentifier();
-
     std::string ReadFromFile(const std::ifstream& ifs);
 
     friend class LexerContext;
