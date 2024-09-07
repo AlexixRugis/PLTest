@@ -20,7 +20,12 @@ std::string ToString(LexerTokenType type)
     case LexerTokenType::MULT: return "LexerTokenType::MULT";
     case LexerTokenType::DIV: return "LexerTokenType::DIV";
     case LexerTokenType::LESS: return "LexerTokenType::LESS";
+    case LexerTokenType::LESSEQUAL: return "LexerTokenType::LESSEQUAL";
+    case LexerTokenType::GREATER: return "LexerTokenType::GREATER";
+    case LexerTokenType::GREATEREQUAL: return "LexerTokenType::GREATEREQUAL";
+    case LexerTokenType::ASSIGN: return "LexerTokenType::ASSIGN";
     case LexerTokenType::EQUAL: return "LexerTokenType::EQUAL";
+    case LexerTokenType::NOTEQUAL: return "LexerTokenType::NOTEQUAL";
     case LexerTokenType::SEMICOLON: return "LexerTokenType::SEMICOLON";
     case LexerTokenType::ENDOFFILE: return "LexerTokenType::ENDOFFILE";
     default: return "UNKNOWN";

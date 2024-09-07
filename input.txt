@@ -1,7 +1,7 @@
 {
     a = 1;
     b = 1;
-    while (b < 100) {
+    while (b <= 100) {
         c = a + b;
         print(c);
         print('\n');
