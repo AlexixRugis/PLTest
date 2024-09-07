@@ -1,21 +1,37 @@
 #include "SymbolParser.h"
+#include "LexerTokenSearchTrie.h"
 #include <unordered_map>
+#include <string>
 
-static const std::unordered_map<char, LexerTokenType> symbolsMap({
-    {'{', LexerTokenType::LBRA}, {'}', LexerTokenType::RBRA}, {'=', LexerTokenType::EQUAL},
-    {';', LexerTokenType::SEMICOLON}, {'(', LexerTokenType::LPAR}, {')', LexerTokenType::RPAR},
-    {'+', LexerTokenType::PLUS}, {'-', LexerTokenType::MINUS}, {'*', LexerTokenType::MULT},
-    {'/', LexerTokenType::DIV}, {'<', LexerTokenType::LESS}
-    });
+static const LexerTokenSearchTrie symbolsMap{
+    std::make_pair<std::string, LexerTokenType>("{", LexerTokenType::LBRA),
+    std::make_pair<std::string, LexerTokenType>("}", LexerTokenType::RBRA),
+    std::make_pair<std::string, LexerTokenType>("=", LexerTokenType::EQUAL),
+    std::make_pair<std::string, LexerTokenType>(";", LexerTokenType::SEMICOLON),
+    std::make_pair<std::string, LexerTokenType>("(", LexerTokenType::LPAR),
+    std::make_pair<std::string, LexerTokenType>(")", LexerTokenType::RPAR),
+    std::make_pair<std::string, LexerTokenType>("+", LexerTokenType::PLUS),
+    std::make_pair<std::string, LexerTokenType>("-", LexerTokenType::MINUS),
+    std::make_pair<std::string, LexerTokenType>("*", LexerTokenType::MULT),
+    std::make_pair<std::string, LexerTokenType>("/", LexerTokenType::DIV),
+    std::make_pair<std::string, LexerTokenType>("<", LexerTokenType::LESS)
+};
 
 std::optional<LexerToken> SymbolParser::TryParse(LexerContext& context)
 {
-    auto iter = symbolsMap.find(context.CurrentChar());
-    if (iter != symbolsMap.end())
+    LexerTokenSearchTrie::Searcher searcher = symbolsMap.GetSearcher();
+
+    while (searcher.TryFeed(context.CurrentChar()))
     {
         context.NextChar();
-        return LexerToken(iter->second, "");
     }
 
-    return std::nullopt;
+    std::optional<LexerTokenType> type = searcher.Value();
+
+    if (!type.has_value())
+    {
+        return std::nullopt;
+    }
+
+    return LexerToken(type.value(), "");
 }

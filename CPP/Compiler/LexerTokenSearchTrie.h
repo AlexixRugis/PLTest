@@ -21,6 +21,8 @@ public:
             }
 
             m_Index = iter->second;
+
+            return true;
         }
 
         std::optional<LexerTokenType> Value() const
