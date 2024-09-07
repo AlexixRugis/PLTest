@@ -1,13 +1,10 @@
 {
-    a = 1;
-    b = 1;
-    while (b < 100) {
-        c = a + b;
-        print(c);
-        print('\n');
-        a = b;
-        b = c;
-    }
-
-    print('End\n');
+    a = 10;
+    _b34 = 120;
+    print('Hello world!\n');
+    print(a);
+    print('\n');
+    print(_b34);
+    print('\n');
+    print(120*-3/a);
 }

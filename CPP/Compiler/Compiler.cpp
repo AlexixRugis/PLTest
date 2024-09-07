@@ -1,10 +1,12 @@
 ﻿#include <iostream>
+#include <fstream>
 #include "Lexer.h"
 
 int main()
 {
     std::string filePath = "C:\\GitHub_Repos\\PLTest\\input.txt";
-    Lexer lexer(filePath);
+    std::ifstream ifs(filePath);
+    Lexer lexer(ifs);
 
     while (true)
     {

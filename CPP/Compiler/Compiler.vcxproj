@@ -131,11 +131,16 @@
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="LexerContext.cpp" />
     <ClCompile Include="LexerToken.cpp" />
+    <ClCompile Include="StringParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ILexemParser.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="LexerContext.h" />
     <ClInclude Include="LexerToken.h" />
+    <ClInclude Include="StringParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
