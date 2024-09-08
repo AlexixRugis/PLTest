@@ -15,6 +15,8 @@ std::string ToString(LexerTokenType type)
     case LexerTokenType::RBRA: return "LexerTokenType::RBRA";
     case LexerTokenType::LPAR: return "LexerTokenType::LPAR";
     case LexerTokenType::RPAR: return "LexerTokenType::RPAR";
+    case LexerTokenType::INCREMENT: return "LexerTokenType::INCREMENT";
+    case LexerTokenType::DECREMENT: return "LexerTokenType::DECREMENT";
     case LexerTokenType::PLUS: return "LexerTokenType::PLUS";
     case LexerTokenType::MINUS: return "LexerTokenType::MINUS";
     case LexerTokenType::MULT: return "LexerTokenType::MULT";

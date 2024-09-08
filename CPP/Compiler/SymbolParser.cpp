@@ -10,6 +10,8 @@ static const LexerTokenSearchTrie symbolsMap{
     std::make_pair<std::string, LexerTokenType>(";", LexerTokenType::SEMICOLON),
     std::make_pair<std::string, LexerTokenType>("(", LexerTokenType::LPAR),
     std::make_pair<std::string, LexerTokenType>(")", LexerTokenType::RPAR),
+    std::make_pair<std::string, LexerTokenType>("++", LexerTokenType::INCREMENT),
+    std::make_pair<std::string, LexerTokenType>("--", LexerTokenType::DECREMENT),
     std::make_pair<std::string, LexerTokenType>("+", LexerTokenType::PLUS),
     std::make_pair<std::string, LexerTokenType>("-", LexerTokenType::MINUS),
     std::make_pair<std::string, LexerTokenType>("*", LexerTokenType::MULT),

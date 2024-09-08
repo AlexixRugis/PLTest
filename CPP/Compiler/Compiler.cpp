@@ -34,4 +34,6 @@ int main()
     {
         std::cout << ToString(v.Type()) << ' ' << v.Value() << "\n";
     }
+
+    int a = 0;
 }
