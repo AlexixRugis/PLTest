@@ -65,7 +65,7 @@
     <ClInclude Include="SymbolParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LexerTokenSearchTrie.h">
+    <ClInclude Include="TokenSearchTrie.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

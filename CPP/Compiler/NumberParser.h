@@ -3,8 +3,10 @@
 #include "LexerContext.h"
 #include "ILexemParser.h"
 
-class NumberParser final : public ILexemParser
-{
-public:
-    std::optional<LexerToken> TryParse(LexerContext& context);
-};
+namespace Lexer {
+    class NumberParser final : public ILexemParser
+    {
+    public:
+        std::optional<Token> TryParse(LexerContext& context);
+    };
+}

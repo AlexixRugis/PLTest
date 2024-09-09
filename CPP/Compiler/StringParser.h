@@ -2,12 +2,14 @@
 #include "ILexemParser.h"
 #include "LexerContext.h"
 
-class StringParser final : public ILexemParser
-{
-public:
-    virtual std::optional<LexerToken> TryParse(LexerContext& context) override;
-    virtual ~StringParser() {}
+namespace Lexer {
+    class StringParser final : public ILexemParser
+    {
+    public:
+        virtual std::optional<Token> TryParse(LexerContext& context) override;
+        virtual ~StringParser() {}
 
-private:
-    char TransformSpecialSymbol(char c) const;
-};
+    private:
+        char TransformSpecialSymbol(char c) const;
+    };
+}

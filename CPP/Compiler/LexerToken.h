@@ -1,23 +1,31 @@
 #pragma once
 #include <string>
 
-enum class LexerTokenType
-{
-    NUM, ID, STRING, PRINT, IF, ELSE, WHILE, LBRA, RBRA, LPAR, RPAR, INCREMENT, DECREMENT, PLUS, MINUS, MULT, DIV, LESS, LESSEQUAL, GREATER, GREATEREQUAL, \
-    ASSIGN, EQUAL, NOTEQUAL, SEMICOLON, ENDOFFILE
-};
+namespace Lexer {
+    enum class TokenType
+    {
+        NUM, ID, STRING, FUNC, VAR, VAL, RETURN, PRINT, IF, ELSE, WHILE, LBRA, RBRA, LPAR, RPAR, LIND, RIND,
+        INCREMENT, DECREMENT, PLUS, MINUS, MULT, DIV, REMAINDER,
+        LESS, LESSEQUAL, GREATER, GREATEREQUAL, EQUAL, NOTEQUAL,
+        NOT, AND, OR,
+        BITNOT, BITAND, BITOR, BITXOR, SHIFTLEFT, SHIFTRIGHT,
+        ASSIGN, PLUSASSIGN, MINUSASSIGN, MULTASSIGN, DIVASSIGN, REMAINDERASSIGN,
+        BITANDASSIGN, BITXORASSIGN, BITORASSIGN, LEFTSHIFTASSIGN, RIGHTSHIFTASSIGN,
+        COLON, SEMICOLON, COMMA, DOT, ENDOFFILE
+    };
 
-std::string ToString(LexerTokenType type);
+    std::string ToString(TokenType type);
 
-class LexerToken
-{
-public: 
-    LexerToken(LexerTokenType type, const std::string& value) : m_Type(type), m_Value(value) { }
-    
-    LexerTokenType Type() const { return m_Type; }
-    std::string Value() const { return m_Value; }
+    class Token
+    {
+    public:
+        Token(TokenType type, const std::string& value) : m_Type(type), m_Value(value) {}
 
-private:
-    LexerTokenType m_Type;
-    std::string m_Value;
-};
+        TokenType Type() const { return m_Type; }
+        std::string Value() const { return m_Value; }
+
+    private:
+        TokenType m_Type;
+        std::string m_Value;
+    };
+}

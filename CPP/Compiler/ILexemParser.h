@@ -3,9 +3,11 @@
 #include "LexerContext.h"
 #include "LexerToken.h"
 
-class ILexemParser
-{
-public:
-    virtual std::optional<LexerToken> TryParse(LexerContext& context) = 0;
-    virtual ~ILexemParser() {};
-};
+namespace Lexer {
+    class ILexemParser
+    {
+    public:
+        virtual std::optional<Token> TryParse(LexerContext& context) = 0;
+        virtual ~ILexemParser() {};
+    };
+}

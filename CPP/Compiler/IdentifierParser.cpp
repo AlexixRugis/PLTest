@@ -2,32 +2,34 @@
 #include <unordered_map>
 #include <string>
 
-static const std::unordered_map<std::string, LexerTokenType> keywordsMap({
-    {"print", LexerTokenType::PRINT}, {"if", LexerTokenType::IF},
-    {"else", LexerTokenType::ELSE}, {"while", LexerTokenType::WHILE}
-});
+namespace Lexer {
+    static const std::unordered_map<std::string, TokenType> keywordsMap({
+        {"print", TokenType::PRINT}, {"if", TokenType::IF},
+        {"else", TokenType::ELSE}, {"while", TokenType::WHILE}
+        });
 
-std::optional<LexerToken> IdentifierParser::TryParse(LexerContext& context)
-{
-    if (context.CurrentChar() != '_' && !isalpha(context.CurrentChar()))
+    std::optional<Token> IdentifierParser::TryParse(LexerContext& context)
     {
-        return std::nullopt;
-    }
+        if (context.CurrentChar() != '_' && !isalpha(context.CurrentChar()))
+        {
+            return std::nullopt;
+        }
 
-    std::string ident;
+        std::string ident;
 
-    while (context.CurrentChar() == '_' || isalnum(context.CurrentChar()))
-    {
-        ident.push_back(context.CurrentChar());
-        context.NextChar();
-    }
+        while (context.CurrentChar() == '_' || isalnum(context.CurrentChar()))
+        {
+            ident.push_back(context.CurrentChar());
+            context.NextChar();
+        }
 
-    auto iter = keywordsMap.find(ident);
-    if (iter != keywordsMap.end())
-    {
-        return LexerToken(iter->second, "");
-    } else
-    {
-        return LexerToken(LexerTokenType::ID, ident);
+        auto iter = keywordsMap.find(ident);
+        if (iter != keywordsMap.end())
+        {
+            return Token(iter->second, "");
+        } else
+        {
+            return Token(TokenType::ID, ident);
+        }
     }
 }

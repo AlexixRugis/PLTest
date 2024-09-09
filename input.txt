@@ -2,7 +2,7 @@
     a = 10;
     _b34 = 120;
     print('Hello world!\n');
-    print(a);
+    print(a[10 + (20 << 1)]);
     print('\n');
     print(_b34);
     print('\n');

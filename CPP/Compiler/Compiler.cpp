@@ -8,20 +8,15 @@ int main()
 {
     std::string filePath = "C:\\GitHub_Repos\\PLTest\\input.txt";
     std::ifstream ifs(filePath);
-    Lexer lexer(ifs);
-    std::vector<LexerToken> lexems;
+    Lexer::Lexer lexer(ifs);
+    std::vector<Lexer::Token> lexems;
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    while (true)
+    while (lexems.size() == 0 || lexems.back().Type() != Lexer::TokenType::ENDOFFILE)
     {
-        LexerToken token = lexer.NextToken();
+        Lexer::Token token = lexer.NextToken();
         lexems.push_back(token);
-
-        if (token.Type() == LexerTokenType::ENDOFFILE)
-        {
-            break;
-        }
     }
 
     auto stop = std::chrono::high_resolution_clock::now();
@@ -34,6 +29,4 @@ int main()
     {
         std::cout << ToString(v.Type()) << ' ' << v.Value() << "\n";
     }
-
-    int a = 0;
 }
