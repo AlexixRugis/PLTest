@@ -135,19 +135,27 @@
     <ClCompile Include="LexerContext.cpp" />
     <ClCompile Include="LexerToken.cpp" />
     <ClCompile Include="NumberParser.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="StringParser.cpp" />
     <ClCompile Include="SymbolParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryExpressionNode.h" />
+    <ClInclude Include="ConstNode.h" />
+    <ClInclude Include="ExpressionNode.h" />
     <ClInclude Include="IdentifierParser.h" />
     <ClInclude Include="ILexemParser.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="LexerContext.h" />
     <ClInclude Include="LexerToken.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeKind.h" />
     <ClInclude Include="NumberParser.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="TokenSearchTrie.h" />
     <ClInclude Include="StringParser.h" />
     <ClInclude Include="SymbolParser.h" />
+    <ClInclude Include="UnaryExpressionNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
