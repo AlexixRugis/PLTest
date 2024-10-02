@@ -10,6 +10,18 @@ namespace Parser {
 
     AST::ExpressionNode* Parser::ParseUnaryExpression()
     {
+        if (MatchToken(Lexer::TokenType::MINUS))
+        {
+            SubmitToken();
+            return new AST::UnaryExpressionNode(AST::NodeKind::UNARYMINUS, ParseUnaryExpression());
+        }
+        
+        if (MatchToken(Lexer::TokenType::PLUS))
+        {
+            SubmitToken();
+            return ParseUnaryExpression();
+        }
+
         if (MatchToken(Lexer::TokenType::LPAR))
         {
             SubmitToken();
@@ -26,11 +38,16 @@ namespace Parser {
     {
         AST::ExpressionNode* cur = ParseUnaryExpression();
 
-        while (MatchToken(Lexer::TokenType::PLUS) || MatchToken(Lexer::TokenType::MULT))
+        while (
+            MatchToken(Lexer::TokenType::PLUS) || MatchToken(Lexer::TokenType::MULT) ||
+            MatchToken(Lexer::TokenType::MINUS) || MatchToken(Lexer::TokenType::DIV)
+            )
         {
             AST::NodeKind kind = AST::NodeKind::ADD;
             if (MatchToken(Lexer::TokenType::PLUS)) kind = AST::NodeKind::ADD;
             else if (MatchToken(Lexer::TokenType::MULT)) kind = AST::NodeKind::MULT;
+            else if (MatchToken(Lexer::TokenType::MINUS)) kind = AST::NodeKind::SUBTRACT;
+            else if (MatchToken(Lexer::TokenType::DIV)) kind = AST::NodeKind::DIV;
 
             int rightPrecedence = GetBinaryOperatorPrecedence(kind);
 

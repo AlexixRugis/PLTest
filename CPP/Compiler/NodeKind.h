@@ -3,6 +3,6 @@
 namespace Parser::AST {
     enum class NodeKind
     {
-        CONST, ADD, SUBTRACT, MULT, DIV
+        CONST, ADD, SUBTRACT, MULT, DIV, UNARYMINUS,
     };
 }

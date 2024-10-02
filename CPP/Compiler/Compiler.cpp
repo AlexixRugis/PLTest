@@ -24,6 +24,8 @@ std::string ToString(Parser::AST::NodeKind kind)
         return "Parser::AST::NodeKind::MULT";
     case Parser::AST::NodeKind::DIV:
         return "Parser::AST::NodeKind::DIV";
+    case Parser::AST::NodeKind::UNARYMINUS:
+        return "Parser::AST::NodeKind::UNARYMINUS";
     default:
         return "UNKNOWN";
     }
@@ -44,6 +46,9 @@ void PrettyPrint(Parser::AST::ExpressionNode* node, int level = 0)
     case Parser::AST::NodeKind::SUBTRACT:
         PrettyPrint(((Parser::AST::BinaryExpressionNode*)node)->OpLeft(), level + 1);
         PrettyPrint(((Parser::AST::BinaryExpressionNode*)node)->OpRight(), level + 1);
+        break;
+    case Parser::AST::NodeKind::UNARYMINUS:
+        PrettyPrint(((Parser::AST::UnaryExpressionNode*)node)->Op(), level + 1);
         break;
     }
 }
