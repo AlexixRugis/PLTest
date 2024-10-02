@@ -4,11 +4,6 @@
 namespace Lexer {
     std::optional<Token> NumberParser::TryParse(LexerContext& context)
     {
-        if (context.CurrentChar() != '-' && !isdigit(context.CurrentChar()))
-        {
-            return std::nullopt;
-        }
-
         std::string parsedNumber;
         uint64_t addedDigits = 0;
 
