@@ -7,12 +7,6 @@ namespace Lexer {
         std::string parsedNumber;
         uint64_t addedDigits = 0;
 
-        if (context.CurrentChar() == '-')
-        {
-            parsedNumber.push_back('-');
-            context.NextChar();
-        }
-
         while (isdigit(context.CurrentChar()))
         {
             parsedNumber.push_back(context.CurrentChar());
