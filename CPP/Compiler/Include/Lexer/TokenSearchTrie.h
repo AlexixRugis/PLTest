@@ -4,7 +4,7 @@
 #include <string>
 #include <initializer_list>
 #include <optional>
-#include "LexerToken.h"
+#include "Lexer/LexerToken.h"
 
 namespace Lexer {
     class TokenSearchTrie final

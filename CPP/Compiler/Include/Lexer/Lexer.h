@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "ILexemParser.h"
-#include "LexerToken.h"
+#include "Lexer/ILexemParser.h"
+#include "Lexer/LexerToken.h"
 
 namespace Lexer {
     class Lexer final

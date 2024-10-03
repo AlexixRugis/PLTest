@@ -1,6 +1,6 @@
 #pragma once
-#include "ILexemParser.h"
-#include "LexerContext.h"
+#include "Lexer/ILexemParser.h"
+#include "Lexer/LexerContext.h"
 
 namespace Lexer {
     class StringParser final : public ILexemParser

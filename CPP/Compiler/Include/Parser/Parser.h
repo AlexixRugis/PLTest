@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 #include <stdexcept>
-#include "Lexer.h"
-#include "LexerToken.h"
-#include "ExpressionNode.h"
-#include "UnaryExpressionNode.h"
-#include "BinaryExpressionNode.h"
-#include "ConstNode.h"
+#include "Lexer/Lexer.h"
+#include "Lexer/LexerToken.h"
+#include "Parser/ExpressionNode.h"
+#include "Parser/UnaryExpressionNode.h"
+#include "Parser/BinaryExpressionNode.h"
+#include "Parser/ConstNode.h"
 
 namespace Parser {
     class Parser final

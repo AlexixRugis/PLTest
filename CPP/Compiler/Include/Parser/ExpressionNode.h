@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.h"
+#include "Parser/Node.h"
 
 namespace Parser::AST {
     class ExpressionNode : public Node {

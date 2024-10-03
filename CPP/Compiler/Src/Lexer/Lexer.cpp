@@ -1,11 +1,11 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
-#include "Lexer.h"
-#include "StringParser.h"
-#include "NumberParser.h"
-#include "IdentifierParser.h"
-#include "SymbolParser.h"
+#include "Lexer/Lexer.h"
+#include "Lexer/StringParser.h"
+#include "Lexer/NumberParser.h"
+#include "Lexer/IdentifierParser.h"
+#include "Lexer/SymbolParser.h"
 
 namespace Lexer {
     Lexer::Lexer(const std::ifstream& ifs) : m_Context(this), m_Text(ReadFromFile(ifs)), m_TextIndex(0)

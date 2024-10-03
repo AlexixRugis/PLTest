@@ -1,5 +1,5 @@
 #pragma once
-#include "NodeKind.h"
+#include "Parser/NodeKind.h"
 
 namespace Parser::AST {
     class Node

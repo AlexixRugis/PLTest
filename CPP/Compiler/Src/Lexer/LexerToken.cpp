@@ -1,4 +1,4 @@
-#include "LexerToken.h"
+#include "Lexer/LexerToken.h"
 
 
 std::string Lexer::ToString(Lexer::TokenType tokenType)

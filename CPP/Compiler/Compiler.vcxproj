@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PublicIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PublicIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -105,6 +111,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,6 +127,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,33 +137,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Compiler.cpp" />
-    <ClCompile Include="IdentifierParser.cpp" />
-    <ClCompile Include="Lexer.cpp" />
-    <ClCompile Include="LexerContext.cpp" />
-    <ClCompile Include="LexerToken.cpp" />
-    <ClCompile Include="NumberParser.cpp" />
-    <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="StringParser.cpp" />
-    <ClCompile Include="SymbolParser.cpp" />
+    <ClCompile Include="Src\Compiler.cpp" />
+    <ClCompile Include="Src\Lexer\IdentifierParser.cpp" />
+    <ClCompile Include="Src\Lexer\Lexer.cpp" />
+    <ClCompile Include="Src\Lexer\LexerContext.cpp" />
+    <ClCompile Include="Src\Lexer\LexerToken.cpp" />
+    <ClCompile Include="Src\Lexer\NumberParser.cpp" />
+    <ClCompile Include="Src\Parser\NodeKind.cpp" />
+    <ClCompile Include="Src\Parser\Parser.cpp" />
+    <ClCompile Include="Src\Lexer\StringParser.cpp" />
+    <ClCompile Include="Src\Lexer\SymbolParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryExpressionNode.h" />
-    <ClInclude Include="ConstNode.h" />
-    <ClInclude Include="ExpressionNode.h" />
-    <ClInclude Include="IdentifierParser.h" />
-    <ClInclude Include="ILexemParser.h" />
-    <ClInclude Include="Lexer.h" />
-    <ClInclude Include="LexerContext.h" />
-    <ClInclude Include="LexerToken.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="NodeKind.h" />
-    <ClInclude Include="NumberParser.h" />
-    <ClInclude Include="Parser.h" />
-    <ClInclude Include="TokenSearchTrie.h" />
-    <ClInclude Include="StringParser.h" />
-    <ClInclude Include="SymbolParser.h" />
-    <ClInclude Include="UnaryExpressionNode.h" />
+    <ClInclude Include="Include\Parser\BinaryExpressionNode.h" />
+    <ClInclude Include="Include\Parser\ConstNode.h" />
+    <ClInclude Include="Include\Parser\ExpressionNode.h" />
+    <ClInclude Include="Include\Lexer\IdentifierParser.h" />
+    <ClInclude Include="Include\Lexer\ILexemParser.h" />
+    <ClInclude Include="Include\Lexer\Lexer.h" />
+    <ClInclude Include="Include\Lexer\LexerContext.h" />
+    <ClInclude Include="Include\Lexer\LexerToken.h" />
+    <ClInclude Include="Include\Parser\Node.h" />
+    <ClInclude Include="Include\Parser\NodeKind.h" />
+    <ClInclude Include="Include\Lexer\NumberParser.h" />
+    <ClInclude Include="Include\Parser\Parser.h" />
+    <ClInclude Include="Include\Lexer\TokenSearchTrie.h" />
+    <ClInclude Include="Include\Lexer\StringParser.h" />
+    <ClInclude Include="Include\Lexer\SymbolParser.h" />
+    <ClInclude Include="Include\Parser\UnaryExpressionNode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

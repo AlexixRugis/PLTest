@@ -4,32 +4,11 @@
 #include <string>
 #include <memory>
 #include <chrono>
-#include "Lexer.h"
-#include "Parser.h"
-#include "ExpressionNode.h"
-#include "BinaryExpressionNode.h"
-#include "ConstNode.h"
-
-std::string ToString(Parser::AST::NodeKind kind)
-{
-    switch (kind)
-    {
-    case Parser::AST::NodeKind::CONST:
-        return "Parser::AST::NodeKind::CONST";
-    case Parser::AST::NodeKind::ADD:
-        return "Parser::AST::NodeKind::ADD";
-    case Parser::AST::NodeKind::SUBTRACT:
-        return "Parser::AST::NodeKind::SUBTRACT";
-    case Parser::AST::NodeKind::MULT:
-        return "Parser::AST::NodeKind::MULT";
-    case Parser::AST::NodeKind::DIV:
-        return "Parser::AST::NodeKind::DIV";
-    case Parser::AST::NodeKind::UNARYMINUS:
-        return "Parser::AST::NodeKind::UNARYMINUS";
-    default:
-        return "UNKNOWN";
-    }
-}
+#include "Lexer/Lexer.h"
+#include "Parser/Parser.h"
+#include "Parser/ExpressionNode.h"
+#include "Parser/BinaryExpressionNode.h"
+#include "Parser/ConstNode.h"
 
 void PrettyPrint(Parser::AST::ExpressionNode* node, int level = 0)
 {

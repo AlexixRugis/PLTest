@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-#include "ExpressionNode.h"
+#include "Parser/ExpressionNode.h"
 
 namespace Parser::AST {
     class BinaryExpressionNode : public ExpressionNode

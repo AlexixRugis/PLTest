@@ -15,81 +15,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Compiler.cpp">
+    <ClCompile Include="Src\Compiler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Lexer.cpp">
+    <ClCompile Include="Src\Lexer\Lexer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="LexerToken.cpp">
+    <ClCompile Include="Src\Lexer\LexerToken.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="StringParser.cpp">
+    <ClCompile Include="Src\Lexer\StringParser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="LexerContext.cpp">
+    <ClCompile Include="Src\Lexer\LexerContext.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="NumberParser.cpp">
+    <ClCompile Include="Src\Lexer\NumberParser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="IdentifierParser.cpp">
+    <ClCompile Include="Src\Lexer\IdentifierParser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="SymbolParser.cpp">
+    <ClCompile Include="Src\Lexer\SymbolParser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.cpp">
+    <ClCompile Include="Src\Parser\Parser.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Parser\NodeKind.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lexer.h">
+    <ClInclude Include="Include\Lexer\Lexer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LexerToken.h">
+    <ClInclude Include="Include\Lexer\LexerToken.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ILexemParser.h">
+    <ClInclude Include="Include\Lexer\ILexemParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="StringParser.h">
+    <ClInclude Include="Include\Lexer\StringParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LexerContext.h">
+    <ClInclude Include="Include\Lexer\LexerContext.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="NumberParser.h">
+    <ClInclude Include="Include\Lexer\NumberParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="IdentifierParser.h">
+    <ClInclude Include="Include\Lexer\IdentifierParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="SymbolParser.h">
+    <ClInclude Include="Include\Lexer\SymbolParser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TokenSearchTrie.h">
+    <ClInclude Include="Include\Lexer\TokenSearchTrie.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
+    <ClInclude Include="Include\Parser\Node.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="NodeKind.h">
+    <ClInclude Include="Include\Parser\NodeKind.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ExpressionNode.h">
+    <ClInclude Include="Include\Parser\ExpressionNode.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="UnaryExpressionNode.h">
+    <ClInclude Include="Include\Parser\UnaryExpressionNode.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryExpressionNode.h">
+    <ClInclude Include="Include\Parser\BinaryExpressionNode.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ConstNode.h">
+    <ClInclude Include="Include\Parser\ConstNode.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.h">
+    <ClInclude Include="Include\Parser\Parser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

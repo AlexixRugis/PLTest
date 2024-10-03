@@ -1,10 +1,10 @@
 #pragma once
 #include <optional>
-#include "LexerContext.h"
-#include "ILexemParser.h"
+#include "Lexer/LexerContext.h"
+#include "Lexer/ILexemParser.h"
 
 namespace Lexer {
-    class NumberParser final : public ILexemParser
+    class SymbolParser final : public ILexemParser
     {
     public:
         std::optional<Token> TryParse(LexerContext& context);

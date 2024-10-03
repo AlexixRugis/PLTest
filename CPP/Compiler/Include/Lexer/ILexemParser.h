@@ -1,7 +1,7 @@
 #pragma once
 #include <optional>
-#include "LexerContext.h"
-#include "LexerToken.h"
+#include "Lexer/LexerContext.h"
+#include "Lexer/LexerToken.h"
 
 namespace Lexer {
     class ILexemParser

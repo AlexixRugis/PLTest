@@ -1,6 +1,6 @@
-#include "Parser.h"
 #include <string>
 #include <iostream>
+#include "Parser/Parser.h"
 
 namespace Parser {
     AST::ExpressionNode* Parser::Parser::ParseExpression()
@@ -90,7 +90,6 @@ namespace Parser {
     {
         if (m_Current.Type() == Lexer::TokenType::ENDOFFILE) throw std::logic_error("Parser::SubmitToken : can't submit EOF token.");
 
-        std::cout << Lexer::ToString(m_Current.Type()) << std::endl;
         m_Current = m_Lexer->NextToken();
     }
 }

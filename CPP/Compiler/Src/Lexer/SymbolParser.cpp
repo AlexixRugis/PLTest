@@ -1,7 +1,7 @@
-#include "SymbolParser.h"
-#include "TokenSearchTrie.h"
 #include <unordered_map>
 #include <string>
+#include "Lexer/SymbolParser.h"
+#include "Lexer/TokenSearchTrie.h"
 
 namespace Lexer {
     static const TokenSearchTrie symbolsMap{

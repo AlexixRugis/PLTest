@@ -14,6 +14,7 @@ namespace Lexer {
         COLON, SEMICOLON, COMMA, DOT, ENDOFFILE
     };
 
+
     std::string ToString(TokenType type);
 
     class Token
