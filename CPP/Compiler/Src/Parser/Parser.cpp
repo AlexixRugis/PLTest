@@ -88,7 +88,7 @@ namespace Parser {
     }
     void Parser::SubmitToken()
     {
-        if (m_Current.Type() == Lexer::TokenType::ENDOFFILE) throw std::logic_error("Parser::SubmitToken : can't submit EOF token.");
+        if (m_Current.Type() == Lexer::TokenType::ENDOFFILE) throw std::logic_error(__FUNCTION__ " : can't submit EOF token.");
 
         m_Current = m_Lexer->NextToken();
     }
