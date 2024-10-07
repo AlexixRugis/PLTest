@@ -56,6 +56,7 @@ namespace Lexer {
             if (!found)
             {
                 std::string error = "Unexpected symbol:  ";
+                NextChar();
                 error.back() = m_Context.m_CurrentChar;
                 ThrowError(error);
             }

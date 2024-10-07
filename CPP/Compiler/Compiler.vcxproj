@@ -138,6 +138,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Compiler.cpp" />
+    <ClCompile Include="Src\Diagnostic\Diagnostic.cpp" />
+    <ClCompile Include="Src\Diagnostic\DiagnosticMessage.cpp" />
+    <ClCompile Include="Src\Diagnostic\DiagnosticSeverity.cpp" />
+    <ClCompile Include="Src\Diagnostic\ErrorCode.cpp" />
     <ClCompile Include="Src\Lexer\IdentifierParser.cpp" />
     <ClCompile Include="Src\Lexer\Lexer.cpp" />
     <ClCompile Include="Src\Lexer\LexerContext.cpp" />
@@ -147,8 +151,14 @@
     <ClCompile Include="Src\Parser\Parser.cpp" />
     <ClCompile Include="Src\Lexer\StringParser.cpp" />
     <ClCompile Include="Src\Lexer\SymbolParser.cpp" />
+    <ClCompile Include="Src\Text\FilePos.cpp" />
+    <ClCompile Include="Src\Text\FileRange.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Diagnostic\DiagnosticMessage.h" />
+    <ClInclude Include="Include\Diagnostic\DiagnosticSeverity.h" />
+    <ClInclude Include="Include\Diagnostic\ErrorCode.h" />
+    <ClInclude Include="Include\Diagnostic\Diagnostic.h" />
     <ClInclude Include="Include\Parser\BinaryExpressionNode.h" />
     <ClInclude Include="Include\Parser\ConstNode.h" />
     <ClInclude Include="Include\Parser\ExpressionNode.h" />
@@ -165,6 +175,8 @@
     <ClInclude Include="Include\Lexer\StringParser.h" />
     <ClInclude Include="Include\Lexer\SymbolParser.h" />
     <ClInclude Include="Include\Parser\UnaryExpressionNode.h" />
+    <ClInclude Include="Include\Text\FilePos.h" />
+    <ClInclude Include="Include\Text\FileRange.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

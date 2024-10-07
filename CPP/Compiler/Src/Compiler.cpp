@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <chrono>
+#include "Diagnostic/Diagnostic.h"
 #include "Lexer/Lexer.h"
 #include "Parser/Parser.h"
 #include "Parser/ExpressionNode.h"
@@ -37,10 +38,14 @@ int main()
     std::string filePath = "C:\\GitHub_Repos\\PLTest\\input.txt";
     std::ifstream ifs(filePath);
 
+    std::shared_ptr<Diagnostic::Diagnostic> diagnostic = std::make_shared<Diagnostic::Diagnostic>();
     std::shared_ptr<Lexer::Lexer> lexer = std::make_shared<Lexer::Lexer>(ifs);
     std::shared_ptr<Parser::Parser> parser = std::make_shared<Parser::Parser>(lexer);
     
 
     Parser::AST::ExpressionNode* mainExpr = parser->ParseExpression();
     PrettyPrint(mainExpr);
+
+    diagnostic->AddMessage(Diagnostic::DiagnosticMessage(Diagnostic::DiagnosticSeverity::HINT, Diagnostic::ErrorCode::LEXER_ERROR, Text::FileRange({ 0,0 }, { 0,0 }), "Just for test"));
+    std::cout << *diagnostic.get();
 }

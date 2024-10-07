@@ -15,7 +15,7 @@ namespace Parser {
             SubmitToken();
             return new AST::UnaryExpressionNode(AST::NodeKind::UNARYMINUS, ParseUnaryExpression());
         }
-        
+
         if (MatchToken(Lexer::TokenType::PLUS))
         {
             SubmitToken();

@@ -12,7 +12,7 @@ namespace Parser {
     class Parser final
     {
     public:
-        Parser(const std::shared_ptr<Lexer::Lexer>& lexer) : m_Lexer(lexer), m_Current(lexer->NextToken()) { }
+        Parser(const std::shared_ptr<Lexer::Lexer>& lexer) : m_Lexer(lexer), m_Current(lexer->NextToken()) {}
 
         AST::ExpressionNode* ParseExpression();
 

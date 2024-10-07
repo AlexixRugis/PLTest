@@ -6,7 +6,7 @@ namespace Parser::AST {
     class BinaryExpressionNode : public ExpressionNode
     {
     public:
-        BinaryExpressionNode(NodeKind kind, ExpressionNode* operandLeft, ExpressionNode* operandRight) 
+        BinaryExpressionNode(NodeKind kind, ExpressionNode* operandLeft, ExpressionNode* operandRight)
             : ExpressionNode(kind), m_OperandLeft(operandLeft), m_OperandRight(operandRight)
         {
             if (operandLeft == nullptr) throw std::invalid_argument(__FUNCTION__ " : operandLeft was null.");
