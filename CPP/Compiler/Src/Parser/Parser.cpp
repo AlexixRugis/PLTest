@@ -1,9 +1,110 @@
 #include <string>
 #include <iostream>
+#include <unordered_map>
 #include "Parser/Parser.h"
+#include "Parser/VariableNode.h"
 
 namespace Parser {
-    AST::ExpressionNode* Parser::Parser::ParseExpression()
+
+    static const std::unordered_map<Lexer::TokenType, AST::NodeKind> nodeKindMap = {
+        { Lexer::TokenType::PLUS, AST::NodeKind::ADD },
+        { Lexer::TokenType::MINUS, AST::NodeKind::SUBTRACT },
+        { Lexer::TokenType::MULT, AST::NodeKind::MULT },
+        { Lexer::TokenType::DIV, AST::NodeKind::DIV },
+        { Lexer::TokenType::REMAINDER, AST::NodeKind::REMAINDER },
+        { Lexer::TokenType::SHIFTLEFT, AST::NodeKind::LSHIFT },
+        { Lexer::TokenType::SHIFTRIGHT, AST::NodeKind::RSHIFT },
+        { Lexer::TokenType::LESS, AST::NodeKind::LESS },
+        { Lexer::TokenType::GREATER, AST::NodeKind::GREATER },
+        { Lexer::TokenType::LESSEQUAL, AST::NodeKind::LESSEQUAL },
+        { Lexer::TokenType::GREATEREQUAL, AST::NodeKind::GREATEREQUAL },
+        { Lexer::TokenType::EQUAL, AST::NodeKind::EQUAL },
+        { Lexer::TokenType::NOTEQUAL, AST::NodeKind::NOTEQUAL },
+        { Lexer::TokenType::BITAND, AST::NodeKind::BITAND },
+        { Lexer::TokenType::BITXOR, AST::NodeKind::BITXOR },
+        { Lexer::TokenType::BITOR, AST::NodeKind::BITOR },
+        { Lexer::TokenType::AND, AST::NodeKind::LOGICALAND },
+        { Lexer::TokenType::OR, AST::NodeKind::LOGICALOR },
+        { Lexer::TokenType::ASSIGN, AST::NodeKind::ASSIGN },
+        { Lexer::TokenType::PLUSASSIGN, AST::NodeKind::PLUSASSIGN },
+        { Lexer::TokenType::MINUSASSIGN, AST::NodeKind::MINUSASSIGN },
+        { Lexer::TokenType::MULTASSIGN, AST::NodeKind::MULTASSIGN },
+        { Lexer::TokenType::DIVASSIGN, AST::NodeKind::DIVASSIGN },
+        { Lexer::TokenType::REMAINDERASSIGN, AST::NodeKind::REMASSIGN },
+        { Lexer::TokenType::BITANDASSIGN, AST::NodeKind::ANDASSIGN },
+        { Lexer::TokenType::BITORASSIGN, AST::NodeKind::ORASSIGN },
+        { Lexer::TokenType::BITXORASSIGN, AST::NodeKind::XORASSIGN },
+        { Lexer::TokenType::LEFTSHIFTASSIGN, AST::NodeKind::LSHIFTASSIGN },
+        { Lexer::TokenType::RIGHTSHIFTASSIGN, AST::NodeKind::RSHIFTASSIGN },
+
+    };
+
+    static const std::unordered_map<AST::NodeKind, AST::BinaryOperatorInfo> operatorInfoMap = {
+        // --------------
+        { AST::NodeKind::MULT, AST::BinaryOperatorInfo(100, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::DIV, AST::BinaryOperatorInfo(100, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::REMAINDER, AST::BinaryOperatorInfo(100, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::ADD, AST::BinaryOperatorInfo(99, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::SUBTRACT, AST::BinaryOperatorInfo(99, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::LSHIFT, AST::BinaryOperatorInfo(98, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::RSHIFT, AST::BinaryOperatorInfo(98, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::LESS, AST::BinaryOperatorInfo(97, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::LESSEQUAL, AST::BinaryOperatorInfo(97, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::GREATER, AST::BinaryOperatorInfo(97, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::GREATEREQUAL, AST::BinaryOperatorInfo(97, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::EQUAL, AST::BinaryOperatorInfo(96, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        { AST::NodeKind::NOTEQUAL, AST::BinaryOperatorInfo(96, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::BITAND, AST::BinaryOperatorInfo(95, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::BITXOR, AST::BinaryOperatorInfo(94, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::BITOR, AST::BinaryOperatorInfo(93, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::LOGICALAND, AST::BinaryOperatorInfo(92, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::LOGICALOR, AST::BinaryOperatorInfo(91, AST::BinaryOperatorAssociativity::LEFTTORIGHT) },
+        // --------------
+        { AST::NodeKind::ASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::PLUSASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::MINUSASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::MULTASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::DIVASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::REMASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::ANDASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::ORASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::XORASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::LSHIFTASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+        { AST::NodeKind::RSHIFTASSIGN, AST::BinaryOperatorInfo(90, AST::BinaryOperatorAssociativity::RIGHTTOLEFT) },
+    };
+
+    std::optional<AST::NodeKind> Parser::GetNodeKind(Lexer::TokenType tokenType) const
+    {
+        auto iter = nodeKindMap.find(tokenType);
+        if (iter != nodeKindMap.end())
+        {
+            return iter->second;
+        }
+
+        return std::nullopt;
+    }
+
+    std::optional<AST::BinaryOperatorInfo> Parser::GetOperatorInfo(AST::NodeKind kind) const
+    {
+        auto iter = operatorInfoMap.find(kind);
+        if (iter != operatorInfoMap.end())
+        {
+            return iter->second;
+        }
+
+        return std::nullopt;
+    }
+
+    AST::ExpressionNode* Parser::ParseExpression()
     {
         return ParseBinaryExpression();
     }
@@ -31,6 +132,14 @@ namespace Parser {
             return node;
         }
 
+        if (MatchToken(Lexer::TokenType::ID))
+        {
+            AST::VariableNode* node = new AST::VariableNode(AST::NodeKind::VARIABLE, m_Current.Value());
+            SubmitToken();
+            return node;
+            
+        }
+
         return ParseConstExpression();
     }
 
@@ -38,25 +147,29 @@ namespace Parser {
     {
         AST::ExpressionNode* cur = ParseUnaryExpression();
 
-        while (
-            MatchToken(Lexer::TokenType::PLUS) || MatchToken(Lexer::TokenType::MULT) ||
-            MatchToken(Lexer::TokenType::MINUS) || MatchToken(Lexer::TokenType::DIV)
-            )
+        while (true)
         {
-            AST::NodeKind kind = AST::NodeKind::ADD;
-            if (MatchToken(Lexer::TokenType::PLUS)) kind = AST::NodeKind::ADD;
-            else if (MatchToken(Lexer::TokenType::MULT)) kind = AST::NodeKind::MULT;
-            else if (MatchToken(Lexer::TokenType::MINUS)) kind = AST::NodeKind::SUBTRACT;
-            else if (MatchToken(Lexer::TokenType::DIV)) kind = AST::NodeKind::DIV;
+            std::optional<AST::NodeKind> kind = GetNodeKind(m_Current.Type());
+            if (!kind.has_value())
+            {
+                break;
+            }
 
-            int rightPrecedence = GetBinaryOperatorPrecedence(kind);
+            std::optional<AST::BinaryOperatorInfo> operatorInfo = GetOperatorInfo(kind.value());
+
+            if (!operatorInfo.has_value())
+            {
+                ThrowError("Binary operator expected");
+            }
+
+            int rightPrecedence = operatorInfo.value().Precedence();
 
             // <=left-to-right <right-to-left
             if (leftPrecedence != 0 && rightPrecedence <= leftPrecedence) break;
 
 
             SubmitToken();
-            cur = new AST::BinaryExpressionNode(kind, cur, ParseBinaryExpression(rightPrecedence));
+            cur = new AST::BinaryExpressionNode(kind.value(), cur, ParseBinaryExpression(rightPrecedence));
         }
 
 

@@ -160,6 +160,7 @@
     <ClInclude Include="Include\Diagnostic\ErrorCode.h" />
     <ClInclude Include="Include\Diagnostic\Diagnostic.h" />
     <ClInclude Include="Include\Parser\BinaryExpressionNode.h" />
+    <ClInclude Include="Include\Parser\BinaryOperatorInfo.h" />
     <ClInclude Include="Include\Parser\ConstNode.h" />
     <ClInclude Include="Include\Parser\ExpressionNode.h" />
     <ClInclude Include="Include\Lexer\IdentifierParser.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Include\Lexer\StringParser.h" />
     <ClInclude Include="Include\Lexer\SymbolParser.h" />
     <ClInclude Include="Include\Parser\UnaryExpressionNode.h" />
+    <ClInclude Include="Include\Parser\VariableNode.h" />
     <ClInclude Include="Include\Text\FilePos.h" />
     <ClInclude Include="Include\Text\FileRange.h" />
   </ItemGroup>

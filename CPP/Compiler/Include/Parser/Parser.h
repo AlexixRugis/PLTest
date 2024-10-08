@@ -1,12 +1,14 @@
 #pragma once
 #include <memory>
 #include <stdexcept>
+#include <optional>
 #include "Lexer/Lexer.h"
 #include "Lexer/LexerToken.h"
 #include "Parser/ExpressionNode.h"
 #include "Parser/UnaryExpressionNode.h"
 #include "Parser/BinaryExpressionNode.h"
 #include "Parser/ConstNode.h"
+#include "Parser/BinaryOperatorInfo.h"
 
 namespace Parser {
     class Parser final
@@ -30,6 +32,9 @@ namespace Parser {
         }
 
         void SubmitToken();
+
+        std::optional<AST::NodeKind> GetNodeKind(Lexer::TokenType tokenType) const;
+        std::optional<AST::BinaryOperatorInfo> GetOperatorInfo(AST::NodeKind kind) const;
 
         AST::ExpressionNode* ParseUnaryExpression();
         AST::ExpressionNode* ParseBinaryExpression(int leftPrecedence = 0);
