@@ -1,1 +1,1 @@
-ans % a == 0 && ans % b == 0
+d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo()

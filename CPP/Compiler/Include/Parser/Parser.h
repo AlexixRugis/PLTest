@@ -22,7 +22,7 @@ namespace Parser {
         std::shared_ptr<Lexer::Lexer> m_Lexer;
         Lexer::Token m_Current;
 
-        int GetBinaryOperatorPrecedence(AST::NodeKind oper) const;
+        int GetBinaryOperatorPrecedence(AST::Op oper) const;
 
         void ThrowError(const std::string& error) const;
 
@@ -33,8 +33,8 @@ namespace Parser {
 
         void SubmitToken();
 
-        std::optional<AST::NodeKind> GetNodeKind(Lexer::TokenType tokenType) const;
-        std::optional<AST::BinaryOperatorInfo> GetOperatorInfo(AST::NodeKind kind) const;
+        std::optional<AST::Op> GetNodeKind(Lexer::TokenType tokenType) const;
+        std::optional<AST::BinaryOperatorInfo> GetOperatorInfo(AST::Op kind) const;
 
         AST::ExpressionNode* ParseUnaryExpression();
         AST::ExpressionNode* ParseBinaryExpression(int leftPrecedence = 0);

@@ -6,7 +6,7 @@ namespace Parser::AST {
     class VariableNode final : public ExpressionNode
     {
     public:
-        VariableNode(NodeKind kind, std::string name) : ExpressionNode(kind), m_Name(name) {}
+        VariableNode(Op kind, std::string name) : ExpressionNode(kind), m_Name(name) {}
         VariableNode(const VariableNode&) = delete;
         VariableNode& operator=(const VariableNode&) = delete;
 

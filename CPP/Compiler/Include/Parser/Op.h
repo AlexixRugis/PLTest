@@ -2,10 +2,10 @@
 #include <string>
 
 namespace Parser::AST {
-    enum class NodeKind
+    enum class Op
     {
         CONST,
-        VARIABLE,
+        ID,
         MULT, 
         REMAINDER,
         DIV, 
@@ -36,7 +36,16 @@ namespace Parser::AST {
         LSHIFTASSIGN,
         RSHIFTASSIGN,
         UNARYMINUS,
+        NOT,
+        BITNOT,
+        PREINC,
+        PREDEC,
+        POSTINC,
+        POSTDEC,
+        INDEX,
+        MEMBER,
+        CALL
     };
 
-    std::string ToString(NodeKind kind);
+    std::string ToString(Op kind);
 }

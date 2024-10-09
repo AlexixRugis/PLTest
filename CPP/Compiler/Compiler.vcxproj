@@ -147,7 +147,7 @@
     <ClCompile Include="Src\Lexer\LexerContext.cpp" />
     <ClCompile Include="Src\Lexer\LexerToken.cpp" />
     <ClCompile Include="Src\Lexer\NumberParser.cpp" />
-    <ClCompile Include="Src\Parser\NodeKind.cpp" />
+    <ClCompile Include="Src\Parser\Op.cpp" />
     <ClCompile Include="Src\Parser\Parser.cpp" />
     <ClCompile Include="Src\Lexer\StringParser.cpp" />
     <ClCompile Include="Src\Lexer\SymbolParser.cpp" />
@@ -169,7 +169,7 @@
     <ClInclude Include="Include\Lexer\LexerContext.h" />
     <ClInclude Include="Include\Lexer\LexerToken.h" />
     <ClInclude Include="Include\Parser\Node.h" />
-    <ClInclude Include="Include\Parser\NodeKind.h" />
+    <ClInclude Include="Include\Parser\Op.h" />
     <ClInclude Include="Include\Lexer\NumberParser.h" />
     <ClInclude Include="Include\Parser\Parser.h" />
     <ClInclude Include="Include\Lexer\TokenSearchTrie.h" />

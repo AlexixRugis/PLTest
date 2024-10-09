@@ -5,7 +5,7 @@ namespace Parser::AST {
     class ConstNode final : public ExpressionNode
     {
     public:
-        ConstNode(NodeKind kind, long long num) : ExpressionNode(kind), m_Value(num) {}
+        ConstNode(Op kind, long long num) : ExpressionNode(kind), m_Value(num) {}
         ConstNode(const ConstNode&) = delete;
         ConstNode& operator=(const ConstNode&) = delete;
 

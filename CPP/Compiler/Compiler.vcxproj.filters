@@ -42,7 +42,7 @@
     <ClCompile Include="Src\Parser\Parser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Parser\NodeKind.cpp">
+    <ClCompile Include="Src\Parser\Op.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Src\Text\FilePos.cpp">
@@ -95,7 +95,7 @@
     <ClInclude Include="Include\Parser\Node.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Parser\NodeKind.h">
+    <ClInclude Include="Include\Parser\Op.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Include\Parser\ExpressionNode.h">
