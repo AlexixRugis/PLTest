@@ -7,24 +7,31 @@
 namespace Parser {
 
     static const std::unordered_map<Lexer::TokenType, AST::Op> nodeKindMap = {
+        // addition
         { Lexer::TokenType::PLUS, AST::Op::ADD },
         { Lexer::TokenType::MINUS, AST::Op::SUBTRACT },
+        // multiplication
         { Lexer::TokenType::MULT, AST::Op::MULT },
         { Lexer::TokenType::DIV, AST::Op::DIV },
         { Lexer::TokenType::REMAINDER, AST::Op::REMAINDER },
+        // shift
         { Lexer::TokenType::SHIFTLEFT, AST::Op::LSHIFT },
         { Lexer::TokenType::SHIFTRIGHT, AST::Op::RSHIFT },
+        // comparison
         { Lexer::TokenType::LESS, AST::Op::LESS },
         { Lexer::TokenType::GREATER, AST::Op::GREATER },
         { Lexer::TokenType::LESSEQUAL, AST::Op::LESSEQUAL },
         { Lexer::TokenType::GREATEREQUAL, AST::Op::GREATEREQUAL },
         { Lexer::TokenType::EQUAL, AST::Op::EQUAL },
         { Lexer::TokenType::NOTEQUAL, AST::Op::NOTEQUAL },
+        // bit ops
         { Lexer::TokenType::BITAND, AST::Op::BITAND },
         { Lexer::TokenType::BITXOR, AST::Op::BITXOR },
         { Lexer::TokenType::BITOR, AST::Op::BITOR },
+        // logical ops
         { Lexer::TokenType::AND, AST::Op::LOGICALAND },
         { Lexer::TokenType::OR, AST::Op::LOGICALOR },
+        // assignment
         { Lexer::TokenType::ASSIGN, AST::Op::ASSIGN },
         { Lexer::TokenType::PLUSASSIGN, AST::Op::PLUSASSIGN },
         { Lexer::TokenType::MINUSASSIGN, AST::Op::MINUSASSIGN },
@@ -104,41 +111,41 @@ namespace Parser {
         return std::nullopt;
     }
 
-    AST::ExpressionNode* Parser::ParseExpression()
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseExpression()
     {
         return ParseBinaryExpression();
     }
 
-    AST::ExpressionNode* Parser::ParseUnaryExpression()
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseUnaryExpression()
     {
         if (MatchToken(Lexer::TokenType::MINUS))
         {
             SubmitToken();
-            return new AST::UnaryExpressionNode(AST::Op::UNARYMINUS, ParseUnaryExpression());
+            return std::make_unique<AST::UnaryExpressionNode>(AST::Op::UNARYMINUS, ParseUnaryExpression());
         }
 
         if (MatchToken(Lexer::TokenType::INCREMENT))
         {
             SubmitToken();
-            return new AST::UnaryExpressionNode(AST::Op::PREINC, ParseUnaryExpression());
+            return std::make_unique<AST::UnaryExpressionNode>(AST::Op::PREINC, ParseUnaryExpression());
         }
 
         if (MatchToken(Lexer::TokenType::DECREMENT))
         {
             SubmitToken();
-            return new AST::UnaryExpressionNode(AST::Op::PREDEC, ParseUnaryExpression());
+            return std::make_unique<AST::UnaryExpressionNode>(AST::Op::PREDEC, ParseUnaryExpression());
         }
 
         if (MatchToken(Lexer::TokenType::NOT))
         {
             SubmitToken();
-            return new AST::UnaryExpressionNode(AST::Op::NOT, ParseUnaryExpression());
+            return std::make_unique<AST::UnaryExpressionNode>(AST::Op::NOT, ParseUnaryExpression());
         }
 
         if (MatchToken(Lexer::TokenType::BITNOT))
         {
             SubmitToken();
-            return new AST::UnaryExpressionNode(AST::Op::BITNOT, ParseUnaryExpression());
+            return std::make_unique<AST::UnaryExpressionNode>(AST::Op::BITNOT, ParseUnaryExpression());
         }
 
         if (MatchToken(Lexer::TokenType::PLUS))
@@ -147,7 +154,7 @@ namespace Parser {
             return ParseUnaryExpression();
         }
 
-        AST::ExpressionNode* node;
+        std::unique_ptr<AST::ExpressionNode> node;
         if (MatchToken(Lexer::TokenType::LPAR))
         {
             SubmitToken();
@@ -156,7 +163,7 @@ namespace Parser {
             SubmitToken();
         } else if (MatchToken(Lexer::TokenType::ID))
         {
-            node = new AST::VariableNode(AST::Op::ID, m_Current.Value());
+            node = std::make_unique<AST::VariableNode>(AST::Op::ID, m_Current.Value());
             SubmitToken();
         } else
         {
@@ -167,32 +174,34 @@ namespace Parser {
         {
             if (MatchToken(Lexer::TokenType::INCREMENT))
             {
-                node = new AST::UnaryExpressionNode(AST::Op::POSTINC, node);
+                node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::POSTINC, std::move(node));
                 SubmitToken();
             } else if (MatchToken(Lexer::TokenType::DECREMENT))
             {
-                node = new AST::UnaryExpressionNode(AST::Op::POSTDEC, node);
+                node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::POSTDEC, std::move(node));
                 SubmitToken();
             } else if (MatchToken(Lexer::TokenType::LIND))
             {
                 SubmitToken();
-                node = new AST::BinaryExpressionNode(AST::Op::INDEX, node, ParseExpression());
+                node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::INDEX, std::move(node), ParseExpression());
                 if (!MatchToken(Lexer::TokenType::RIND)) ThrowError("Expected ']'");
                 SubmitToken();
             } else if (MatchToken(Lexer::TokenType::DOT))
             {
                 SubmitToken();
                 if (!MatchToken(Lexer::TokenType::ID)) ThrowError("Expected ID");
-                node = new AST::BinaryExpressionNode(AST::Op::MEMBER, node, new AST::VariableNode(AST::Op::ID, m_Current.Value()));
+
+                std::unique_ptr<AST::ExpressionNode> idNode = std::make_unique<AST::VariableNode>(AST::Op::ID, m_Current.Value());
+                node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::MEMBER, std::move(node), std::move(idNode));
+
                 SubmitToken();
             } else if (MatchToken(Lexer::TokenType::LPAR))
             {
                 SubmitToken();
                 if (!MatchToken(Lexer::TokenType::RPAR)) ThrowError("Expected ')'");
                 SubmitToken();
-                node = new AST::UnaryExpressionNode(AST::Op::CALL, node);
-            }
-            else
+                node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::CALL, std::move(node));
+            } else
             {
                 break;
             }
@@ -201,9 +210,9 @@ namespace Parser {
         return node;
     }
 
-    AST::ExpressionNode* Parser::ParseBinaryExpression(int leftPrecedence)
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseBinaryExpression(int leftPrecedence)
     {
-        AST::ExpressionNode* cur = ParseUnaryExpression();
+        std::unique_ptr<AST::ExpressionNode> cur = ParseUnaryExpression();
 
         while (true)
         {
@@ -227,8 +236,7 @@ namespace Parser {
             if (asc == AST::BinaryOperatorAssociativity::RIGHTTOLEFT)
             {
                 if (leftPrecedence != 0 && rightPrecedence < leftPrecedence) break;
-            }
-            else
+            } else
             {
                 if (leftPrecedence != 0 && rightPrecedence <= leftPrecedence) break;
             }
@@ -236,22 +244,21 @@ namespace Parser {
 
 
             SubmitToken();
-            cur = new AST::BinaryExpressionNode(kind.value(), cur, ParseBinaryExpression(rightPrecedence));
+            cur = std::make_unique<AST::BinaryExpressionNode>(kind.value(), std::move(cur), ParseBinaryExpression(rightPrecedence));
         }
 
 
         return cur;
     }
 
-    AST::ExpressionNode* Parser::ParseConstExpression()
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseConstExpression()
     {
         if (!MatchToken(Lexer::TokenType::NUM)) ThrowError("Expected NUM token");
 
         long long num = std::stoll(m_Current.Value());
-        AST::ConstNode* node = new AST::ConstNode(AST::Op::CONST, num);
-
         SubmitToken();
-        return node;
+
+        return std::make_unique<AST::ConstNode>(AST::Op::CONST, num);
     }
 
     int Parser::GetBinaryOperatorPrecedence(AST::Op oper) const

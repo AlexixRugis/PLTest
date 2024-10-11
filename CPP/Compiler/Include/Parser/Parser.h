@@ -16,7 +16,7 @@ namespace Parser {
     public:
         Parser(const std::shared_ptr<Lexer::Lexer>& lexer) : m_Lexer(lexer), m_Current(lexer->NextToken()) {}
 
-        AST::ExpressionNode* ParseExpression();
+        std::unique_ptr<AST::ExpressionNode> ParseExpression();
 
     private:
         std::shared_ptr<Lexer::Lexer> m_Lexer;
@@ -36,8 +36,8 @@ namespace Parser {
         std::optional<AST::Op> GetNodeKind(Lexer::TokenType tokenType) const;
         std::optional<AST::BinaryOperatorInfo> GetOperatorInfo(AST::Op kind) const;
 
-        AST::ExpressionNode* ParseUnaryExpression();
-        AST::ExpressionNode* ParseBinaryExpression(int leftPrecedence = 0);
-        AST::ExpressionNode* ParseConstExpression();
+        std::unique_ptr<AST::ExpressionNode> ParseUnaryExpression();
+        std::unique_ptr<AST::ExpressionNode> ParseBinaryExpression(int leftPrecedence = 0);
+        std::unique_ptr<AST::ExpressionNode> ParseConstExpression();
     };
 }

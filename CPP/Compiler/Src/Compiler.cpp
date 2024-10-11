@@ -68,8 +68,8 @@ int main()
     std::shared_ptr<Parser::Parser> parser = std::make_shared<Parser::Parser>(lexer);
 
 
-    Parser::AST::ExpressionNode* mainExpr = parser->ParseExpression();
-    PrettyPrint(mainExpr);
+    std::unique_ptr<Parser::AST::ExpressionNode> ast = parser->ParseExpression();
+    PrettyPrint(ast.get());
 
     diagnostic->AddMessage(Diagnostic::DiagnosticMessage(Diagnostic::DiagnosticSeverity::HINT, Diagnostic::ErrorCode::LEXER_ERROR, Text::FileRange({ 0,0 }, { 0,0 }), "Just for test"));
     std::cout << *diagnostic.get();
