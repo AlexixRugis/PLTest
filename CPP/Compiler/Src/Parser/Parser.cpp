@@ -118,50 +118,49 @@ namespace Parser {
 
     std::unique_ptr<AST::ExpressionNode> Parser::ParseUnaryExpression()
     {
-        if (MatchToken(Lexer::TokenType::MINUS))
+        if (Match(Lexer::TokenType::MINUS))
         {
             SubmitToken();
             return std::make_unique<AST::UnaryExpressionNode>(AST::Op::UNARYMINUS, ParseUnaryExpression());
         }
 
-        if (MatchToken(Lexer::TokenType::INCREMENT))
+        if (Match(Lexer::TokenType::INCREMENT))
         {
             SubmitToken();
             return std::make_unique<AST::UnaryExpressionNode>(AST::Op::PREINC, ParseUnaryExpression());
         }
 
-        if (MatchToken(Lexer::TokenType::DECREMENT))
+        if (Match(Lexer::TokenType::DECREMENT))
         {
             SubmitToken();
             return std::make_unique<AST::UnaryExpressionNode>(AST::Op::PREDEC, ParseUnaryExpression());
         }
 
-        if (MatchToken(Lexer::TokenType::NOT))
+        if (Match(Lexer::TokenType::NOT))
         {
             SubmitToken();
             return std::make_unique<AST::UnaryExpressionNode>(AST::Op::NOT, ParseUnaryExpression());
         }
 
-        if (MatchToken(Lexer::TokenType::BITNOT))
+        if (Match(Lexer::TokenType::BITNOT))
         {
             SubmitToken();
             return std::make_unique<AST::UnaryExpressionNode>(AST::Op::BITNOT, ParseUnaryExpression());
         }
 
-        if (MatchToken(Lexer::TokenType::PLUS))
+        if (Match(Lexer::TokenType::PLUS))
         {
             SubmitToken();
             return ParseUnaryExpression();
         }
 
         std::unique_ptr<AST::ExpressionNode> node;
-        if (MatchToken(Lexer::TokenType::LPAR))
+        if (Match(Lexer::TokenType::LPAR))
         {
             SubmitToken();
             node = ParseExpression();
-            if (!MatchToken(Lexer::TokenType::RPAR)) ThrowError("Expected ')'");
-            SubmitToken();
-        } else if (MatchToken(Lexer::TokenType::ID))
+            Expect(Lexer::TokenType::RPAR);
+        } else if (Match(Lexer::TokenType::ID))
         {
             node = std::make_unique<AST::VariableNode>(AST::Op::ID, m_Current.Value());
             SubmitToken();
@@ -172,34 +171,32 @@ namespace Parser {
 
         while (true)
         {
-            if (MatchToken(Lexer::TokenType::INCREMENT))
+            if (Match(Lexer::TokenType::INCREMENT))
             {
                 node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::POSTINC, std::move(node));
                 SubmitToken();
-            } else if (MatchToken(Lexer::TokenType::DECREMENT))
+            } else if (Match(Lexer::TokenType::DECREMENT))
             {
                 node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::POSTDEC, std::move(node));
                 SubmitToken();
-            } else if (MatchToken(Lexer::TokenType::LIND))
+            } else if (Match(Lexer::TokenType::LIND))
             {
                 SubmitToken();
                 node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::INDEX, std::move(node), ParseExpression());
-                if (!MatchToken(Lexer::TokenType::RIND)) ThrowError("Expected ']'");
-                SubmitToken();
-            } else if (MatchToken(Lexer::TokenType::DOT))
+                Expect(Lexer::TokenType::RIND);
+            } else if (Match(Lexer::TokenType::DOT))
             {
                 SubmitToken();
-                if (!MatchToken(Lexer::TokenType::ID)) ThrowError("Expected ID");
+                if (!Match(Lexer::TokenType::ID)) ThrowError("Expected ID");
 
                 std::unique_ptr<AST::ExpressionNode> idNode = std::make_unique<AST::VariableNode>(AST::Op::ID, m_Current.Value());
                 node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::MEMBER, std::move(node), std::move(idNode));
 
                 SubmitToken();
-            } else if (MatchToken(Lexer::TokenType::LPAR))
+            } else if (Match(Lexer::TokenType::LPAR))
             {
                 SubmitToken();
-                if (!MatchToken(Lexer::TokenType::RPAR)) ThrowError("Expected ')'");
-                SubmitToken();
+                Expect(Lexer::TokenType::RPAR);
                 node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::CALL, std::move(node));
             } else
             {
@@ -241,8 +238,6 @@ namespace Parser {
                 if (leftPrecedence != 0 && rightPrecedence <= leftPrecedence) break;
             }
 
-
-
             SubmitToken();
             cur = std::make_unique<AST::BinaryExpressionNode>(kind.value(), std::move(cur), ParseBinaryExpression(rightPrecedence));
         }
@@ -253,7 +248,7 @@ namespace Parser {
 
     std::unique_ptr<AST::ExpressionNode> Parser::ParseConstExpression()
     {
-        if (!MatchToken(Lexer::TokenType::NUM)) ThrowError("Expected NUM token");
+        if (!Match(Lexer::TokenType::NUM)) ThrowError("Expected NUM token");
 
         long long num = std::stoll(m_Current.Value());
         SubmitToken();

@@ -26,9 +26,15 @@ namespace Parser {
 
         void ThrowError(const std::string& error) const;
 
-        bool MatchToken(Lexer::TokenType type) const
+        bool Match(Lexer::TokenType type) const
         {
             return m_Current.Type() == type;
+        }
+
+        void Expect(Lexer::TokenType type)
+        {
+            if (m_Current.Type() != type) ThrowError("Expected " + Lexer::ToString(type) + " token.");
+            SubmitToken();
         }
 
         void SubmitToken();
@@ -39,5 +45,6 @@ namespace Parser {
         std::unique_ptr<AST::ExpressionNode> ParseUnaryExpression();
         std::unique_ptr<AST::ExpressionNode> ParseBinaryExpression(int leftPrecedence = 0);
         std::unique_ptr<AST::ExpressionNode> ParseConstExpression();
+        
     };
 }
