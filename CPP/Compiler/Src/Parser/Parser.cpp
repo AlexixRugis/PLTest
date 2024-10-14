@@ -111,6 +111,47 @@ namespace Parser {
         return std::nullopt;
     }
 
+    std::unique_ptr<AST::ExpressionNode> Parser::Parse()
+    {
+        return ParseStatement();
+    }
+
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseStatement()
+    {
+        if (Match(Lexer::TokenType::LBRA))
+        {
+            return ParseBlock();
+        }
+
+        std::unique_ptr<AST::ExpressionNode> node = ParseExpression();
+        Expect(Lexer::TokenType::SEMICOLON);
+
+        return node;
+    }
+
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseBlock()
+    {
+        Expect(Lexer::TokenType::LBRA);
+
+        std::unique_ptr<AST::ExpressionNode> node;
+        while (!Match(Lexer::TokenType::ENDOFFILE) && !Match(Lexer::TokenType::RBRA))
+        {
+            std::unique_ptr<AST::ExpressionNode> nextNode = ParseStatement();
+
+            if (node)
+            {
+                node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::SEQUENCE, std::move(node), std::move(nextNode));
+            } else
+            {
+                node = std::move(nextNode);
+            }
+        }
+
+        Expect(Lexer::TokenType::RBRA);
+
+        return node;
+    }
+
     std::unique_ptr<AST::ExpressionNode> Parser::ParseExpression()
     {
         return ParseBinaryExpression();

@@ -46,6 +46,7 @@ namespace Parser::AST {
         case Op::MEMBER: return "MEMBER";
         case Op::INDEX: return "INDEX";
         case Op::CALL: return "CALL";
+        case Op::SEQUENCE: return "SEQUENCE";
         default: return "UNKNOWN";
         }
     }

@@ -44,7 +44,8 @@ namespace Parser::AST {
         POSTDEC,
         INDEX,
         MEMBER,
-        CALL
+        CALL,
+        SEQUENCE
     };
 
     std::string ToString(Op kind);
