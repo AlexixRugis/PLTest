@@ -1,15 +1,4 @@
 {
 d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
-d += leftPrecedence = rightPrecedence = ++operatorInfo.value().Precedence()[3234 + a + ind % n].foo();
+System.out.println(str1.equalsIgnoreCase(str2));
 }

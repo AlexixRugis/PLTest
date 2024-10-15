@@ -10,6 +10,7 @@
 #include "Parser/ExpressionNode.h"
 #include "Parser/BinaryExpressionNode.h"
 #include "Parser/ConstNode.h"
+#include "Parser/SequenceNode.h"
 #include "Parser/VariableNode.h"
 
 void PrettyPrint(Parser::AST::ExpressionNode* node, int level = 0)
@@ -31,15 +32,25 @@ void PrettyPrint(Parser::AST::ExpressionNode* node, int level = 0)
     auto* binop = dynamic_cast<Parser::AST::BinaryExpressionNode*>(node);
     if (binop)
     {
-        PrettyPrint(((Parser::AST::BinaryExpressionNode*)node)->OpLeft(), level + 1);
-        PrettyPrint(((Parser::AST::BinaryExpressionNode*)node)->OpRight(), level + 1);
+        PrettyPrint(binop->OpLeft(), level + 1);
+        PrettyPrint(binop->OpRight(), level + 1);
         return;
     }
 
     auto* unop = dynamic_cast<Parser::AST::UnaryExpressionNode*>(node);
     if (unop)
     {
-        PrettyPrint(((Parser::AST::UnaryExpressionNode*)node)->Op(), level + 1);
+        PrettyPrint(unop->Op(), level + 1);
+        return;
+    }
+
+    auto* seqop = dynamic_cast<Parser::AST::SequenceNode*>(node);
+    if (seqop)
+    {
+        for (size_t i = 0; i < seqop->size(); ++i)
+        {
+            PrettyPrint(seqop->at(i), level + 1);
+        }
         return;
     }
 }

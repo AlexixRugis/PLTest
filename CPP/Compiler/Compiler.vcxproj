@@ -159,6 +159,7 @@
     <ClInclude Include="Include\Diagnostic\DiagnosticSeverity.h" />
     <ClInclude Include="Include\Diagnostic\ErrorCode.h" />
     <ClInclude Include="Include\Diagnostic\Diagnostic.h" />
+    <ClInclude Include="Include\Parser\SequenceNode.h" />
     <ClInclude Include="Include\Parser\BinaryExpressionNode.h" />
     <ClInclude Include="Include\Parser\BinaryOperatorInfo.h" />
     <ClInclude Include="Include\Parser\ConstNode.h" />

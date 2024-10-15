@@ -133,23 +133,36 @@ namespace Parser {
     {
         Expect(Lexer::TokenType::LBRA);
 
-        std::unique_ptr<AST::ExpressionNode> node;
+        std::unique_ptr<AST::SequenceNode> sequence = std::make_unique<AST::SequenceNode>(AST::Op::SEQUENCE);
         while (!Match(Lexer::TokenType::ENDOFFILE) && !Match(Lexer::TokenType::RBRA))
         {
             std::unique_ptr<AST::ExpressionNode> nextNode = ParseStatement();
 
-            if (node)
-            {
-                node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::SEQUENCE, std::move(node), std::move(nextNode));
-            } else
-            {
-                node = std::move(nextNode);
-            }
+            sequence->appendNode(std::move(nextNode));
         }
 
         Expect(Lexer::TokenType::RBRA);
 
-        return node;
+        return sequence;
+    }
+
+    std::unique_ptr<AST::ExpressionNode> Parser::ParseArguments()
+    {
+        std::unique_ptr<AST::SequenceNode> sequence = std::make_unique<AST::SequenceNode>(AST::Op::ARGUMENTS);
+
+        while (!Match(Lexer::TokenType::ENDOFFILE) && !Match(Lexer::TokenType::RPAR))
+        {
+            std::unique_ptr<AST::ExpressionNode> nextNode = ParseExpression();
+
+            if (!Match(Lexer::TokenType::RPAR))
+            {
+                Expect(Lexer::TokenType::COMMA);
+            }
+
+            sequence->appendNode(std::move(nextNode));
+        }
+
+        return sequence;
     }
 
     std::unique_ptr<AST::ExpressionNode> Parser::ParseExpression()
@@ -237,8 +250,9 @@ namespace Parser {
             } else if (Match(Lexer::TokenType::LPAR))
             {
                 SubmitToken();
+                std::unique_ptr<AST::ExpressionNode> arguments = ParseArguments();
                 Expect(Lexer::TokenType::RPAR);
-                node = std::make_unique<AST::UnaryExpressionNode>(AST::Op::CALL, std::move(node));
+                node = std::make_unique<AST::BinaryExpressionNode>(AST::Op::CALL, std::move(node), std::move(arguments));
             } else
             {
                 break;

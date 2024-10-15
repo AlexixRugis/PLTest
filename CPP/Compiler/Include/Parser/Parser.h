@@ -9,6 +9,7 @@
 #include "Parser/BinaryExpressionNode.h"
 #include "Parser/ConstNode.h"
 #include "Parser/BinaryOperatorInfo.h"
+#include "Parser/SequenceNode.h"
 
 namespace Parser {
     class Parser final
@@ -43,6 +44,7 @@ namespace Parser {
         
         std::unique_ptr<AST::ExpressionNode> ParseStatement();
         std::unique_ptr<AST::ExpressionNode> ParseBlock();
+        std::unique_ptr<AST::ExpressionNode> ParseArguments();
         std::unique_ptr<AST::ExpressionNode> ParseExpression();
         std::unique_ptr<AST::ExpressionNode> ParseUnaryExpression();
         std::unique_ptr<AST::ExpressionNode> ParseBinaryExpression(int leftPrecedence = 0);
