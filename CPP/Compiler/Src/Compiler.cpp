@@ -15,7 +15,7 @@
 
 void PrettyPrint(Parser::AST::ExpressionNode* node, int level = 0)
 {
-    for (int i = 0; i < level; i++) std::cout << '\t';
+    for (int i = 0; i < level; i++) std::cout << "  ";
     std::cout << ToString(node->Kind());
     if (node->Kind() == Parser::AST::Op::CONST)
     {
@@ -60,14 +60,10 @@ int main()
     std::string filePath = "C:\\GitHub_Repos\\PLTest\\input.txt";
     std::ifstream ifs(filePath);
 
-    std::shared_ptr<Diagnostic::Diagnostic> diagnostic = std::make_shared<Diagnostic::Diagnostic>();
     std::shared_ptr<Lexer::Lexer> lexer = std::make_shared<Lexer::Lexer>(ifs);
     std::shared_ptr<Parser::Parser> parser = std::make_shared<Parser::Parser>(lexer);
 
 
     std::unique_ptr<Parser::AST::ExpressionNode> ast = parser->Parse();
     PrettyPrint(ast.get());
-
-    diagnostic->AddMessage(Diagnostic::DiagnosticMessage(Diagnostic::DiagnosticSeverity::HINT, Diagnostic::ErrorCode::LEXER_ERROR, Text::FileRange({ 0,0 }, { 0,0 }), "Just for test"));
-    std::cout << *diagnostic.get();
 }
